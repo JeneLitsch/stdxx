@@ -135,3 +135,13 @@ constexpr auto operator-(
 		-vector.y,
 		-vector.z);
 }
+
+
+// Output
+template<class Arithmetic, class Flavor>
+std::ostream & operator<<(
+	std::ostream & stream,
+	const stx::Vector3<Arithmetic, Flavor> vector) {
+	stream << "(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
+	return stream;
+}

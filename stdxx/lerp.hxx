@@ -8,14 +8,32 @@ namespace stx {
 		return std::lerp(a, b, t);
 	}
 
-	auto lerp(
-		const color_rgb auto & c1,
-		const color_rgb auto & c2,
-		auto t) {
+	auto lerp(const color_rgb auto & c1, const color_rgb auto & c2,	auto t) {
 		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
 		const auto g = static_cast<std::uint8_t>(std::lerp(c1.g, c2.g, t));
 		const auto b = static_cast<std::uint8_t>(std::lerp(c1.b, c2.b, t));
 		return decltype(c1){r, g, b};
+	}
+
+	auto lerp(const color_rgba auto & c1, const color_rgba auto & c2,	auto t) {
+		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
+		const auto g = static_cast<std::uint8_t>(std::lerp(c1.g, c2.g, t));
+		const auto b = static_cast<std::uint8_t>(std::lerp(c1.b, c2.b, t));
+		const auto a = static_cast<std::uint8_t>(std::lerp(c1.a, c2.a, t));
+		return decltype(c1){r, g, b, a};
+	}
+
+	auto lerp(const vector_2 auto & v1, const vector_2 auto & v2, auto t) {
+		const auto x = lerp(v1.x, v2.x, t);
+		const auto y = lerp(v1.y, v2.y, t);
+		return decltype(v1) {x, y};
+	}
+
+	auto lerp(const vector_3 auto & v1, const vector_3 auto & v2, auto t) {
+		const auto x = lerp(v1.x, v2.x, t);
+		const auto y = lerp(v1.y, v2.y, t);
+		const auto z = lerp(v1.z, v2.z, t);
+		return decltype(v1) {x, y, z};
 	}
 
 	auto lerp(
