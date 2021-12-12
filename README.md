@@ -1,2 +1,2 @@
-# stdxx
+# std++
 Collection of C++ utilities.
