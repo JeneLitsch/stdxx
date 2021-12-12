@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cxx {
+namespace stx {
 	template<class Iterator, class RandomGenerator>
 	Iterator select_random(Iterator begin, Iterator end, RandomGenerator & random) {
 		const auto size = std::distance(begin, end);

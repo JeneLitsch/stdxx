@@ -3,7 +3,7 @@
 #include <cmath>
 #include "concepts.hxx"
 
-namespace cxx {
+namespace stx {
 	auto lerp(auto a, auto b, auto t) {
 		return std::lerp(a, b, t);
 	}
@@ -36,7 +36,7 @@ namespace cxx {
 		auto prev = begin + static_cast<unsigned>(std::floor(t));
 		auto next = begin + static_cast<unsigned>(std::ceil(t));
 		auto t_ = std::fmod(t, 1);
-		auto result = cxx::lerp(*prev, *next, t_);
+		auto result = stx::lerp(*prev, *next, t_);
 		return static_cast<R>(result);
 	}
 	

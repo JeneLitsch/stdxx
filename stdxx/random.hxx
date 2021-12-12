@@ -2,7 +2,7 @@
 #include <random>
 #include <concepts>
 
-namespace cxx {
+namespace stx {
 	template<typename Numeric>
 	Numeric rand(auto & rng, Numeric from, Numeric to) {
 		if constexpr (std::is_floating_point<Numeric>::value) {

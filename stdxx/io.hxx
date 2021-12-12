@@ -5,7 +5,7 @@
 #include <fstream>
 #include "concepts.hxx"
 
-namespace cxx {
+namespace stx {
 	inline void print(std::ostream & stream, auto data) {
 		stream << data;
 	}

@@ -1,7 +1,7 @@
 #pragma once
 #include <concepts>
 
-namespace cxx {
+namespace stx {
 	template<typename Color>
 	concept color_rgb = requires(Color c) { 
 		Color{c.r, c.g, c.b};
