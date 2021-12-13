@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iostream>
 #include <fstream>
+#include <tuple>
 #include "concepts.hxx"
 
 namespace stx {
@@ -23,6 +24,8 @@ namespace stx {
 	}
 
 
+
+	
 	template<typename T>
 	inline T read(std::istream & in) {
 		T value;
@@ -45,9 +48,9 @@ namespace stx {
 		return T{x, y, z};
 	}
 
-	template<typename T>
-	inline T read() {
-		return read<T>(std::cin);
+	template<typename...T>
+	inline auto read() {
+		return read<T...>(std::cin);
 	}
 
 	
@@ -68,4 +71,32 @@ namespace stx {
 	inline bool isEof() {
 		return isEof(std::cin);
 	}
+
+	template<typename T>
+	inline std::tuple<T> read_n(std::istream & in) {
+		return std::make_tuple(read<T>(in));
+	}
+
+	template<typename T1, typename T2, typename... Ts>
+	inline auto read(std::istream & in) {
+		auto tuple1 = std::tuple{read<T1>(in)};
+		auto tuple2 = std::tuple{read<T2, Ts...>(in)};
+		return std::tuple_cat(tuple1, tuple2);
+	}
+
+}
+
+std::ostream & operator<<(std::ostream & stream, const stx::color_rgb auto & color) {
+	return stream << "rgb(" 
+		<< static_cast<unsigned>(color.r) << ","
+		<< static_cast<unsigned>(color.g) << ","
+		<< static_cast<unsigned>(color.b) << ")";
+}
+
+std::ostream & operator<<(std::ostream & stream, const stx::color_rgba auto & color) {
+	return stream << "rgba(" 
+		<< static_cast<unsigned>(color.r) << ","
+		<< static_cast<unsigned>(color.g) << ","
+		<< static_cast<unsigned>(color.b) << ","
+		<< static_cast<unsigned>(color.a) << ")";
 }
