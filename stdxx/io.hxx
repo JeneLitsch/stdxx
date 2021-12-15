@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <tuple>
 #include "concepts.hxx"
 
@@ -82,6 +83,12 @@ namespace stx {
 		auto tuple1 = std::tuple{read<T1>(in)};
 		auto tuple2 = std::tuple{read<T2, Ts...>(in)};
 		return std::tuple_cat(tuple1, tuple2);
+	}
+
+	std::string quote(const auto & printable) {
+		std::stringstream ss;
+		ss << "\"" << printable << "\"";
+		return ss.str();
 	}
 
 }

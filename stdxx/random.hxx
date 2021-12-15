@@ -15,6 +15,11 @@ namespace stx {
 		}
 	}
 
+	bool flip(auto & rng, auto probability) {
+		const auto roll = rand<double>(rng, 0.0, 1.0);
+		return roll < probability;
+	}
+
 	void seed(auto & rng) {
 		std::random_device rngDevice;
 		rng.seed(rngDevice());
