@@ -1,11 +1,5 @@
 #pragma once
 
-template<class Callable>
-auto iife(const Callable & callable) {
-	return callable();
-}
-
-template<class Callable>
-auto iife(Callable && callable) {
+auto iife(const auto & callable) {
 	return callable();
 }
