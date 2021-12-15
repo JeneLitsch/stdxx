@@ -4,9 +4,6 @@
 #include "concepts.hxx"
 
 namespace stx {
-	auto lerp(auto a, auto b, auto t) {
-		return std::lerp(a, b, t);
-	}
 
 	auto lerp(const color_rgb auto & c1, const color_rgb auto & c2,	auto t) {
 		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
@@ -36,6 +33,10 @@ namespace stx {
 		return decltype(v1) {x, y, z};
 	}
 
+	auto lerp(default_lerpable auto a, default_lerpable auto b, auto t) {
+		return std::lerp(a, b, t);
+	}
+	
 	auto lerp(
 		std::input_iterator auto begin,
 		std::input_iterator auto end,

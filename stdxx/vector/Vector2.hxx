@@ -40,6 +40,9 @@ namespace stx {
 
 		virtual constexpr ~Vector2() = default;
 
+		constexpr Vector2 & operator=(const Vector2&) = default;
+		constexpr Vector2 & operator=(Vector2 &&) = default;
+
 		Arithmetic x;
 		Arithmetic y;
 	};

@@ -1,5 +1,6 @@
 #pragma once
 #include <concepts>
+#include <cmath>
 
 namespace stx {
 	
@@ -23,4 +24,9 @@ namespace stx {
 	concept vector_2 = requires(Vector2 v) {
 		Vector2{v.x, v.y};
 	} && !vector_3<Vector2>;
+
+	template<typename T>
+	concept default_lerpable = requires(T t1, T t2) {
+		std::lerp(t1, t2, 0.5);
+	};
 }
