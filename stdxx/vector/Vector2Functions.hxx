@@ -73,4 +73,10 @@ namespace stx {
 		return std::abs(r.x - l.x) <= epsilon
 			&& std::abs(r.y - l.y) <= epsilon;
 	}
+
+	template<class Arithmetic>
+	constexpr auto center(
+		const Size2<Arithmetic> & size) {
+		return Position2<Arithmetic>{size / 2.f}; 
+	}
 }

@@ -3,7 +3,7 @@
 #include "VectorFlavor.hxx"
 
 namespace stx {
-	template<class Arithmetic, class Flavor>
+	template<class Arithmetic, class Flavor = vectorFlavor::DEFAULT>
 	class Vector2 {
 	public:
 		template<class VectorType>
@@ -47,27 +47,34 @@ namespace stx {
 		Arithmetic y;
 	};
 
+	
+
 	// Typedefs
-	using Vector2f = Vector2<float, 			vectorFlavor::DEFAULT>; 
-	using Vector2d = Vector2<double, 			vectorFlavor::DEFAULT>; 
-	using Vector2i = Vector2<int, 				vectorFlavor::DEFAULT>; 
-	using Vector2l = Vector2<long, 				vectorFlavor::DEFAULT>; 
-	using Vector2u = Vector2<unsigned, 			vectorFlavor::DEFAULT>; 
-	using Vector2ul = Vector2<unsigned long, 	vectorFlavor::DEFAULT>; 
+	using Vector2f = Vector2<float>; 
+	using Vector2d = Vector2<double>; 
+	using Vector2i = Vector2<int>; 
+	using Vector2l = Vector2<long>; 
+	using Vector2u = Vector2<unsigned>; 
+	using Vector2ul = Vector2<unsigned long>; 
 
-	using Size2f = Vector2<float, 				vectorFlavor::SIZE>; 
-	using Size2d = Vector2<double, 				vectorFlavor::SIZE>; 
-	using Size2i = Vector2<int, 				vectorFlavor::SIZE>; 
-	using Size2l = Vector2<long, 				vectorFlavor::SIZE>; 
-	using Size2u = Vector2<unsigned, 			vectorFlavor::SIZE>; 
-	using Size2ul = Vector2<unsigned long, 		vectorFlavor::SIZE>; 
+	template<typename Arithmetic> 
+	using Size2   = Vector2<Arithmetic, vectorFlavor::SIZE>;
+	using Size2f  = Size2<float>;
+	using Size2d  = Size2<double>; 
+	using Size2i  = Size2<int>;
+	using Size2l  = Size2<long>;
+	using Size2u  = Size2<unsigned>; 
+	using Size2ul = Size2<unsigned long>;
 
-	using Position2f = Vector2<float, 			vectorFlavor::POSITION>; 
-	using Position2d = Vector2<double, 			vectorFlavor::POSITION>; 
-	using Position2i = Vector2<int, 			vectorFlavor::POSITION>; 
-	using Position2l = Vector2<long, 			vectorFlavor::POSITION>; 
-	using Position2u = Vector2<unsigned, 		vectorFlavor::POSITION>; 
-	using Position2ul = Vector2<unsigned long, 	vectorFlavor::POSITION>;
+
+	template<typename Arithmetic> 
+	using Position2   = Vector2<Arithmetic, vectorFlavor::POSITION>;
+	using Position2f  = Position2<float>; 
+	using Position2d  = Position2<double>; 
+	using Position2i  = Position2<int>; 
+	using Position2l  = Position2<long>; 
+	using Position2u  = Position2<unsigned>; 
+	using Position2ul = Position2<unsigned long>;
 }
 
 
