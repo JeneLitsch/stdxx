@@ -12,4 +12,8 @@ namespace stx {
 		std::advance(begin, idx);
 		return begin;
 	}
+
+	auto whole(auto & container) {
+		return std::pair(container.begin(), container.end());
+	}
 }
