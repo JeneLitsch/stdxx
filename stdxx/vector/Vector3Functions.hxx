@@ -5,20 +5,20 @@
 namespace stx {
 	template<class Arithmetic, class FlavorL, class FlavorR>
 	Arithmetic dot(
-		const Vector3<Arithmetic, FlavorL> & l,
-		const Vector3<Arithmetic, FlavorR> & r) {
+		const vector3<Arithmetic, FlavorL> & l,
+		const vector3<Arithmetic, FlavorR> & r) {
 		return (l.x * r.x) + (l.y * r.y) + (l.z * r.z);
 	}
 
 	template<class Arithmetic, class Flavor>
 	constexpr auto sliceXY(
-		const Vector3<Arithmetic, Flavor> & vector) {
-		return Vector2<Arithmetic, Flavor>(vector.x, vector.y);
+		const vector3<Arithmetic, Flavor> & vector) {
+		return vector2<Arithmetic, Flavor>(vector.x, vector.y);
 	}
 
 	template<class Arithmetic, class Flavor>
 	constexpr auto extend(
-		const Vector2<Arithmetic, Flavor> & vector,
+		const vector3<Arithmetic, Flavor> & vector,
 		const Arithmetic & z) {
 		return Vector3<Arithmetic, Flavor>(vector.x, vector.y, z);
 	}

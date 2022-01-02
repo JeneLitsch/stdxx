@@ -3,15 +3,15 @@
 
 namespace stx {
 	template<class Arithmetic, class Flavor>
-	class Vector3 {
+	class vector3 {
 	public:
-		constexpr Vector3(Arithmetic x, Arithmetic y, Arithmetic z) noexcept
+		constexpr vector3(Arithmetic x, Arithmetic y, Arithmetic z) noexcept
 			:	x(x), y(y), z(z) {}
 
-		constexpr Vector3(Arithmetic xyz) noexcept
+		constexpr vector3(Arithmetic xyz) noexcept
 			:	x(xyz), y(xyz), z(xyz) {}
 
-		constexpr Vector3()
+		constexpr vector3()
 			:	x(0), y(0), z(0) {}
 
 		template<class VectorType>
@@ -27,26 +27,26 @@ namespace stx {
 		Arithmetic z;
 	};
 
-	using Vector3f = Vector3<float, 			vectorFlavor::DEFAULT>; 
-	using Vector3d = Vector3<double,			vectorFlavor::DEFAULT>; 
-	using Vector3i = Vector3<int, 				vectorFlavor::DEFAULT>; 
-	using Vector3l = Vector3<long, 				vectorFlavor::DEFAULT>; 
-	using Vector3u = Vector3<unsigned, 			vectorFlavor::DEFAULT>; 
-	using Vector3ul = Vector3<unsigned long, 	vectorFlavor::DEFAULT>; 
+	using vector3f = vector3<float, 			vectorFlavor::DEFAULT>; 
+	using vector3d = vector3<double,			vectorFlavor::DEFAULT>; 
+	using vector3i = vector3<int, 				vectorFlavor::DEFAULT>; 
+	using vector3l = vector3<long, 				vectorFlavor::DEFAULT>; 
+	using vector3u = vector3<unsigned, 			vectorFlavor::DEFAULT>; 
+	using vector3ul = vector3<unsigned long, 	vectorFlavor::DEFAULT>; 
 
-	using Size3f = Vector3<float, 				vectorFlavor::SIZE>; 
-	using Size3d = Vector3<double,				vectorFlavor::SIZE>; 
-	using Size3i = Vector3<int, 				vectorFlavor::SIZE>; 
-	using Size3l = Vector3<long, 				vectorFlavor::SIZE>; 
-	using Size3u = Vector3<unsigned, 			vectorFlavor::SIZE>; 
-	using Size3ul = Vector3<unsigned long, 		vectorFlavor::SIZE>; 
+	using size3f = vector3<float, 				vectorFlavor::SIZE>; 
+	using size3d = vector3<double,				vectorFlavor::SIZE>; 
+	using size3i = vector3<int, 				vectorFlavor::SIZE>; 
+	using size3l = vector3<long, 				vectorFlavor::SIZE>; 
+	using size3u = vector3<unsigned, 			vectorFlavor::SIZE>; 
+	using size3ul = vector3<unsigned long, 		vectorFlavor::SIZE>; 
 
-	using Position3f = Vector3<float, 			vectorFlavor::POSITION>;
-	using Position3d = Vector3<double,			vectorFlavor::POSITION>;
-	using Position3i = Vector3<int, 			vectorFlavor::POSITION>;
-	using Position3l = Vector3<long, 			vectorFlavor::POSITION>;
-	using Position3u = Vector3<unsigned, 		vectorFlavor::POSITION>;
-	using Position3ul = Vector3<unsigned long, 	vectorFlavor::POSITION>;
+	using position3f = vector3<float, 			vectorFlavor::POSITION>;
+	using position3d = vector3<double,			vectorFlavor::POSITION>;
+	using position3i = vector3<int, 			vectorFlavor::POSITION>;
+	using position3l = vector3<long, 			vectorFlavor::POSITION>;
+	using position3u = vector3<unsigned, 		vectorFlavor::POSITION>;
+	using position3ul = vector3<unsigned long, 	vectorFlavor::POSITION>;
 }
 
 
@@ -54,10 +54,10 @@ namespace stx {
 // Elementwise Binary operator
 template<template<class> class Op, class Arithmetic , class FlavorL, class FlavorR>
 constexpr auto elementWiseOperator(
-	const stx::Vector3<Arithmetic, FlavorL> & l,
-	const stx::Vector3<Arithmetic, FlavorR> & r) {
+	const stx::vector3<Arithmetic, FlavorL> & l,
+	const stx::vector3<Arithmetic, FlavorR> & r) {
 	if constexpr (std::same_as<FlavorL, FlavorR>) {
-		return stx::Vector3<Arithmetic, FlavorL>(
+		return stx::vector3<Arithmetic, FlavorL>(
 			Op<Arithmetic>()(l.x, r.x),
 			Op<Arithmetic>()(l.y, r.y),
 			Op<Arithmetic>()(l.z, r.z));
@@ -73,22 +73,22 @@ constexpr auto elementWiseOperator(
 
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator+(
-	const stx::Vector3<Arithmetic, FlavorL> & l,
-	const stx::Vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorL> & l,
+	const stx::vector3<Arithmetic, FlavorL> & r) {
 	return elementWiseOperator<std::plus>(l, r);
 }
 
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator-(
-	const stx::Vector3<Arithmetic, FlavorL> & l,
-	const stx::Vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorL> & l,
+	const stx::vector3<Arithmetic, FlavorL> & r) {
 	return elementWiseOperator<std::minus>(l, r);
 }
 
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator*(
-	const stx::Vector3<Arithmetic, FlavorL> & l,
-	const stx::Vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorL> & l,
+	const stx::vector3<Arithmetic, FlavorL> & r) {
 	return elementWiseOperator<std::multiplies>(l, r);
 }
 
@@ -96,9 +96,9 @@ constexpr auto operator*(
 // Scalar operators
 template<template<class> class Op, class Arithmetic, class Flavor> 
 constexpr auto scalarOperator(
-	const stx::Vector3<Arithmetic, Flavor> & vector,
+	const stx::vector3<Arithmetic, Flavor> & vector,
 	const Arithmetic & scalar) {
-	return stx::Vector3<Arithmetic, Flavor>(
+	return stx::vector3<Arithmetic, Flavor>(
 		Op<Arithmetic>()(vector.x, scalar),
 		Op<Arithmetic>()(vector.y, scalar),
 		Op<Arithmetic>()(vector.z, scalar));
@@ -107,20 +107,20 @@ constexpr auto scalarOperator(
 template<class Arithmetic, class Flavor> 
 constexpr auto operator *(
 	const Arithmetic & scalar,
-	const stx::Vector3<Arithmetic, Flavor> & vector) {
+	const stx::vector3<Arithmetic, Flavor> & vector) {
 	return scalarOperator<std::multiplies>(vector, scalar);
 }
 
 template<class Arithmetic, class Flavor> 
 constexpr auto operator *(
-	const stx::Vector3<Arithmetic, Flavor> & vector,
+	const stx::vector3<Arithmetic, Flavor> & vector,
 	const Arithmetic & scalar) {
 	return scalarOperator<std::multiplies>(vector, scalar);
 }
 
 template<class Arithmetic, class Flavor> 
 constexpr auto operator/(
-	const stx::Vector3<Arithmetic, Flavor> & vector,
+	const stx::vector3<Arithmetic, Flavor> & vector,
 	const Arithmetic & scalar) {
 	return scalarOperator<std::divides>(vector, scalar);
 }
@@ -129,8 +129,8 @@ constexpr auto operator/(
 // Unary
 template<class Arithmetic, class Flavor> 
 constexpr auto operator-(
-	const stx::Vector3<Arithmetic, Flavor> & vector) {
-	return stx::Vector3<Arithmetic, Flavor>(
+	const stx::vector3<Arithmetic, Flavor> & vector) {
+	return stx::vector3<Arithmetic, Flavor>(
 		-vector.x,
 		-vector.y,
 		-vector.z);
@@ -141,7 +141,7 @@ constexpr auto operator-(
 template<class Arithmetic, class Flavor>
 std::ostream & operator<<(
 	std::ostream & stream,
-	const stx::Vector3<Arithmetic, Flavor> vector) {
+	const stx::vector3<Arithmetic, Flavor> vector) {
 	stream << "(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 	return stream;
 }
