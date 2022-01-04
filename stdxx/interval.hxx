@@ -6,7 +6,7 @@ namespace stx {
 	public:
 		class iterator {
 		public:
-			iterator(T value) : value(value) {}
+			constexpr iterator(T value) : value(value) {}
 
 			using iterator_category = std::input_iterator_tag;
 			using difference_type = std::ptrdiff_t;
@@ -14,29 +14,29 @@ namespace stx {
 			using pointer = T*;
 			using reference = T&;
 
-			const value_type & operator*() const {
+			constexpr const value_type & operator*() const {
 				return this->value;
 			}
 
-			const value_type * operator->() const {
+			constexpr const value_type * operator->() const {
 				return &this->value;
 			}
 
-			iterator operator++() {
+			constexpr iterator operator++() {
 				this->value++; return *this;
 			}
 
-			iterator operator++(int) {
+			constexpr iterator operator++(int) {
 				iterator temp = *this;
 				this->value++;
 				return temp;
 			}
 
-			friend bool operator==(const iterator & l, const iterator & r) {
+			constexpr friend bool operator==(const iterator & l, const iterator & r) {
 				return l.value == r.value;
 			}
 
-			friend bool operator!=(const iterator & l, const iterator & r) {
+			constexpr friend bool operator!=(const iterator & l, const iterator & r) {
 				return l.value != r.value;
 			}
 
@@ -44,19 +44,19 @@ namespace stx {
 			value_type value;
 		};
 
-		iterator begin() const {
+		constexpr iterator begin() const {
 			return iterator{first};
 		}
 
-		iterator end() const {
+		constexpr iterator end() const {
 			return iterator{last};
 		}
 
-		interval(T first, T last) : first(first), last(last) {}
-		interval(T last) : first(0), last(last) {}
+		constexpr interval(T first, T last) : first(first), last(last) {}
+		constexpr interval(T last) : first(0), last(last) {}
 
 
-		T size() const { 
+		constexpr T size() const { 
 			return last - first;
 		}
 	private:
@@ -65,7 +65,7 @@ namespace stx {
 	};
 
 	template<typename T>
-	auto size(const interval<T> & i) {
+	constexpr auto size(const interval<T> & i) {
 		return i.size();
 	}
 
@@ -74,11 +74,19 @@ namespace stx {
 	using interval_s = interval<std::size_t>;
 
 	template<typename T>
-	auto over(const auto & container) {
+	constexpr auto over(const auto & container) {
 		return interval<T>(static_cast<T>(container.size()));
 	}
 
-	auto over_i(const auto & container) { return over<int>(container); }
-	auto over_u(const auto & container) { return over<unsigned>(container); }
-	auto over_s(const auto & container) { return over<std::size_t>(container); }
+	constexpr auto over_i(const auto & container) {
+		return over<int>(container);
+	}
+	
+	constexpr auto over_u(const auto & container) {
+		return over<unsigned>(container);
+	}
+	
+	constexpr auto over_s(const auto & container) {
+		return over<std::size_t>(container);
+	}
 }
