@@ -42,4 +42,7 @@ namespace stx {
 	private:
 		std::array<std::array<T, 3>, 3> elements;
 	};
+
+	using matrix3f = matrix3<float>; 
+	using matrix3d = matrix3<double>;
 }
