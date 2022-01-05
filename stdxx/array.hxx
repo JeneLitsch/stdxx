@@ -4,7 +4,7 @@
 #include <span>
 
 template<typename T, std::size_t SIZE_L, std::size_t SIZE_R>
-inline std::array<T, SIZE_L + SIZE_R> operator+(
+constexpr inline std::array<T, SIZE_L + SIZE_R> operator+(
 	const std::array<T, SIZE_L> & l,
 	const std::array<T, SIZE_R> & r) {
 	std::array<sf::Vertex, SIZE_L + SIZE_R> arr;

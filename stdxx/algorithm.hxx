@@ -1,4 +1,5 @@
 #pragma once
+#include "iterator.hxx"
 
 namespace stx {
 	template<class Iterator, class RandomGenerator>
@@ -13,7 +14,5 @@ namespace stx {
 		return begin;
 	}
 
-	auto whole(auto & container) {
-		return std::pair(container.begin(), container.end());
-	}
+
 }

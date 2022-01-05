@@ -16,4 +16,8 @@ namespace stx {
 	bool empty(const auto begin, const auto end) {
 		return stx::size(begin, end) == 0;
 	}
+
+	constexpr auto whole(auto & container) {
+		return std::pair(container.begin(), container.end());
+	}
 }

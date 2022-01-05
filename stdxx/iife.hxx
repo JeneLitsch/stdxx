@@ -1,6 +1,6 @@
 #pragma once
 
-auto iife(const auto & callable) {
+constexpr auto iife(const auto & callable) {
 	return callable();
 }
 
