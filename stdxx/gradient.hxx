@@ -27,8 +27,8 @@ namespace stx {
 
 		const auto pair = std::upper_bound(begin, end, t, comp);
 
-		const auto next = (pair == end)   ? stx::prev(pair) : pair;
-		const auto prev = (pair != begin) ? stx::prev(pair) : pair; 
+		const auto next = (pair == end)   ? std::prev(pair) : pair;
+		const auto prev = (pair != begin) ? std::prev(pair) : pair; 
 
 		const auto [posNext, valueNext] = *next;
 		const auto [posPrev, valuePrev] = *prev;

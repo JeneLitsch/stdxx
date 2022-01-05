@@ -29,4 +29,10 @@ namespace stx {
 	concept default_lerpable = requires(T t1, T t2) {
 		std::lerp(t1, t2, 0.5);
 	};
+
+	template<typename Arr>
+	concept ranged_array = requires(Arr arr) {
+		arr.begin();
+		arr.end();
+	};
 }

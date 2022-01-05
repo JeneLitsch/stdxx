@@ -6,6 +6,7 @@
 #include <sstream>
 #include <tuple>
 #include "concepts.hxx"
+#include "iterator.hxx"
 
 namespace stx {
 	inline void print(std::ostream & stream, auto data) {
@@ -93,17 +94,32 @@ namespace stx {
 
 }
 
-std::ostream & operator<<(std::ostream & stream, const stx::color_rgb auto & color) {
-	return stream << "rgb(" 
+std::ostream & operator<<(std::ostream & out, const stx::color_rgb auto & color) {
+	return out << "rgb(" 
 		<< static_cast<unsigned>(color.r) << ","
 		<< static_cast<unsigned>(color.g) << ","
 		<< static_cast<unsigned>(color.b) << ")";
 }
 
-std::ostream & operator<<(std::ostream & stream, const stx::color_rgba auto & color) {
-	return stream << "rgba(" 
+std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color) {
+	return out << "rgba(" 
 		<< static_cast<unsigned>(color.r) << ","
 		<< static_cast<unsigned>(color.g) << ","
 		<< static_cast<unsigned>(color.b) << ","
 		<< static_cast<unsigned>(color.a) << ")";
+}
+
+template<typename Iterator>
+std::ostream & operator<<(
+	std::ostream & out,
+	const stx::iterator_range<Iterator> & range) {	
+	out << "{";
+	for(auto it = range.begin; it != range.end; it++) {
+		if(it != range.begin) {
+			out << ",";
+		}
+		out << *it;
+	}
+	out << "}";
+	return out;
 }
