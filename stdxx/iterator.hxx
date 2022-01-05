@@ -6,7 +6,7 @@ namespace stx {
 	}
 
 	auto next(auto it) {
-		return --it;
+		return ++it;
 	}
 
 	auto size(const auto begin, const auto end) {
