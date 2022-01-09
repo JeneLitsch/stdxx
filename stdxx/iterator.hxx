@@ -1,5 +1,5 @@
 #pragma once
-
+#include "iterator_range.hxx"
 namespace stx {
 
 	auto size(const auto begin, const auto end) {
@@ -9,12 +9,6 @@ namespace stx {
 	bool empty(const auto begin, const auto end) {
 		return stx::size(begin, end) == 0;
 	}
-
-	template<typename Iterator>
-	struct iterator_range {
-		Iterator begin;
-		Iterator end;
-	};
 
 	constexpr auto whole(auto & container) {
 		auto begin = container.begin();
