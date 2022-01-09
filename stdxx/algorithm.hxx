@@ -15,10 +15,10 @@ namespace stx {
 		return begin;
 	}
 
-	// For predicate functions: Derefs the single parameter
-	// Allows to use algorithms on containers with pointer types.
-	// e.g. std::vector<std::unique_ptr<?>>
-	constexpr auto deref_parameter(auto fx) {
-		return [fx] (const auto & ptr) { return fx(*ptr); };
-	}
+	// // For predicate functions: Derefs the single parameter
+	// // Allows to use algorithms on containers with pointer types.
+	// // e.g. std::vector<std::unique_ptr<?>>
+	// constexpr auto deref_parameter(auto fx) {
+	// 	return [fx] (const auto & ptr) { return fx(*ptr); };
+	// }
 }
