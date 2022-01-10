@@ -45,7 +45,7 @@ namespace stx {
 	bool operator OP(\
 		const strong<Type, Tag> & l,\
 		const strong<Type, Tag> & r) {\
-		return *l OP *r;\
+		return static_cast<Type>(l) OP static_cast<Type>(r);\
 	}
 
 	COMP_OP(<=>)
@@ -63,7 +63,7 @@ namespace stx {
 	auto operator OP(\
 		const strong<Type, Tag> & l,\
 		const strong<Type, Tag> & r) {\
-		return strong<Type, Tag>(*l OP *r);\
+		return strong<Type, Tag>(static_cast<Type>(l) OP static_cast<Type>(r));\
 	}
 
 	BIN_OP(+)
