@@ -15,11 +15,11 @@ namespace stx {
 		// Explicit casting
 		template<typename Type2, typename Tag2>
 		explicit constexpr strong(const strong<Type2, Tag2> & x)
-			: value(x.value) {}
+			: value(x.operator const Type &()) {}
 		
 		template<typename Type2, typename Tag2>
 		explicit constexpr strong(strong<Type2, Tag2> && x) 
-			: value(std::move(x.value)) {}
+			: value(std::move(x.operator const Type &())) {}
 		
 
 		// Underlying
@@ -36,13 +36,18 @@ namespace stx {
 	};
 
 	template<typename Type, typename Tag>
-	auto colaps(const strong<Type, Tag> & l) {
-		return static_cast<Type>(l);
+	constexpr auto colaps(const strong<Type, Tag> & x) {
+		return static_cast<Type>(x);
+	}
+
+	template<typename TagOut, typename Type, typename TagIn>
+	constexpr auto tag_cast(const strong<Type, TagIn> & x) {
+		return static_cast<strong<Type, TagOut>>(x);
 	}
 
 	#define COMP_OP(OP)\
 	template<typename Type, typename Tag>\
-	bool operator OP(\
+	constexpr bool operator OP(\
 		const strong<Type, Tag> & l,\
 		const strong<Type, Tag> & r) {\
 		return static_cast<Type>(l) OP static_cast<Type>(r);\
@@ -60,7 +65,7 @@ namespace stx {
 
 	#define BIN_OP(OP)\
 	template<typename Type, typename Tag>\
-	auto operator OP(\
+	constexpr auto operator OP(\
 		const strong<Type, Tag> & l,\
 		const strong<Type, Tag> & r) {\
 		return strong<Type, Tag>(static_cast<Type>(l) OP static_cast<Type>(r));\
