@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdint>
+#include <iterator>
 #include "iterator_range.hxx"
 namespace stx {
 

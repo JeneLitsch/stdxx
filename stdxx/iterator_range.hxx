@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+#include <iterator>
+#include <utility>
 
 namespace stx {
 	template<typename Iter>
@@ -21,9 +24,9 @@ namespace stx {
 			if constexpr (I == 0) return begin_it;\
 			if constexpr (I == 1) return end_it;
 
-		template <size_t I>	auto & get() &             { UNPACK }
-		template <size_t I> const auto & get() const & { UNPACK }
-		template <size_t I> auto && get() &&           { UNPACK }
+		template <std::size_t I> auto & get() &             { UNPACK }
+		template <std::size_t I> const auto & get() const & { UNPACK }
+		template <std::size_t I> auto && get() &&           { UNPACK }
 
 		#undef UNPACK
 

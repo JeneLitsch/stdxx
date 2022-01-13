@@ -15,6 +15,6 @@ namespace stx {
 	// Allows to use algorithms on containers with pointer types.
 	// e.g. std::vector<std::unique_ptr<?>>
 	constexpr auto deref_parameter(auto fx) {
-		return [fx] (const auto & ptr) { return fx(*ptr); };
+		return [fx] (auto & ptr) { return fx(*ptr); };
 	}
 }
