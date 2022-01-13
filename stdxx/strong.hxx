@@ -36,7 +36,7 @@ namespace stx {
 	};
 
 	template<typename Type, typename Tag>
-	constexpr auto colaps(const strong<Type, Tag> & x) {
+	constexpr auto collapse(const strong<Type, Tag> & x) {
 		return static_cast<Type>(x);
 	}
 
