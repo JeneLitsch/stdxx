@@ -15,10 +15,9 @@ namespace stx {
 		return begin;
 	}
 
-	// // For predicate functions: Derefs the single parameter
-	// // Allows to use algorithms on containers with pointer types.
-	// // e.g. std::vector<std::unique_ptr<?>>
-	// constexpr auto deref_parameter(auto fx) {
-	// 	return [fx] (const auto & ptr) { return fx(*ptr); };
-	// }
+	void for_each_if(auto begin, auto end, auto pred, auto op) {
+		std::for_each(begin, end, [pred, op] (auto & elem) {
+			if(pred(elem)) op(elem);
+		});
+	}
 }
