@@ -35,4 +35,9 @@ namespace stx {
 		arr.begin();
 		arr.end();
 	};
+
+	template<typename T, typename Fx>
+	concept binary_fx = requires(Fx fx, T x, T y) {
+		std::same_as<decltype(fx(x, y)), T>;
+	};
 }

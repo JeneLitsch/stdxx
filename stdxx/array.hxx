@@ -16,9 +16,20 @@ constexpr inline std::array<T, SIZE_L + SIZE_R> operator+(
 template<typename T, std::size_t SIZE>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
-	const std::array<T, SIZE> & arr) {
-	vec.reserve(vec.size() + SIZE);
-	std::copy_n(arr.begin(), SIZE, std::back_inserter(vec));
+	const std::array<T, SIZE> & arr) {	
+	for(const auto e : arr) {
+		vec.push_back(e);
+	}
+	return vec;
+}
+
+template<typename T, std::size_t SIZE>
+inline std::vector<T> & operator+=(
+	std::vector<T> & vec,
+	const std::vector<T> & arr) {	
+	for(const auto e : arr) {
+		vec.push_back(e);
+	}
 	return vec;
 }
 
