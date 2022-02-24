@@ -9,7 +9,7 @@ namespace stx {
 	public:
 		constexpr reference(T & ref) : ptr(&ref) {}
 		constexpr reference & operator=(T & ref) {
-			this->ptr = ref;
+			this->ptr = &ref;
 			return *this;
 		}
 
