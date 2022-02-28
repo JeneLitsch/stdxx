@@ -34,7 +34,7 @@ namespace stx {
 	}
 
 	auto lerp(default_lerpable auto a, default_lerpable auto b, auto t) {
-		return std::lerp(a, b, t);
+		return (1 - t) * a + t * b;
 	}
 	
 	auto lerp(
@@ -58,6 +58,22 @@ namespace stx {
 		auto result = stx::lerp(*prev, *next, t_);
 		return static_cast<R>(result);
 	}
-	
-	
+
+
+
+	template<std::floating_point F, typename T>
+	auto bi_lerp(T nw, T ne, T sw, T se, F tx, F ty) {
+		return stx::lerp(
+			stx::lerp(nw, ne, tx),
+			stx::lerp(sw, se, tx),
+			ty);	
+	}
+
+
+	template<std::floating_point F = float>
+	F progress(auto val, auto min, auto max) {
+		const auto relative = static_cast<F>(val - min);
+		const auto distance = static_cast<F>(max - min);  
+		return relative / distance;
+	}	
 }

@@ -60,6 +60,8 @@ namespace stx {
 	COMP_OP(>)
 	COMP_OP(<=)
 	COMP_OP(>=)
+	COMP_OP(&&)
+	COMP_OP(||)
 
 	#undef COMP_OP
 
@@ -81,6 +83,19 @@ namespace stx {
 
 	#undef BIN_OP
 
+
+	#define UNARY_OP(OP)\
+	template<typename Type, typename Tag>\
+	constexpr auto operator OP(const strong<Type, Tag> & x) {\
+		return strong<Type, Tag>(OP static_cast<Type>(x));\
+	}
+
+	UNARY_OP(-)
+	UNARY_OP(!)
+	UNARY_OP(+)
+	UNARY_OP(~)
+
+	#undef UNARY_OP
 
 	template<typename Tag>
 	using strong_int = strong<int, Tag>; 

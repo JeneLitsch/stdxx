@@ -26,8 +26,8 @@ namespace stx {
 	} && !vector_3<Vector2>;
 
 	template<typename T>
-	concept default_lerpable = requires(T t1, T t2) {
-		std::lerp(t1, t2, 0.5);
+	concept default_lerpable = requires(T a, T b) {
+		a + 0.5 * (b - 0.5);
 	};
 
 	template<typename Arr>
