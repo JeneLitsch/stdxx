@@ -65,9 +65,9 @@ namespace stx {
 
 		bool in_range(auto x, auto y) const {
 			return
-				(x < this->sizeXY.x) ||
-				(y < this->sizeXY.y) ||
-				(x >= 0) ||
+				(x < this->sizeXY.x) &&
+				(y < this->sizeXY.y) &&
+				(x >= 0) &&
 				(y >= 0);
 		}
 
