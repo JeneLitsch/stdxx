@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 
 namespace stx {
 	template<typename Type, typename Tag>
@@ -29,6 +30,17 @@ namespace stx {
 		
 		explicit operator Type & () {
 			return value;
+		}
+
+		// Underlying
+		template<typename To>
+		explicit operator const To() const {
+			return static_cast<To>(value);
+		}
+		
+		template<typename To>
+		explicit operator To() {
+			return static_cast<To>(value);
 		}
 
 	private:
@@ -63,6 +75,7 @@ namespace stx {
 	COMP_OP(&&)
 	COMP_OP(||)
 
+
 	#undef COMP_OP
 
 	#define BIN_OP(OP)\
@@ -80,6 +93,9 @@ namespace stx {
 	BIN_OP(%)
 	BIN_OP(<<)
 	BIN_OP(>>)
+	BIN_OP(|)
+	BIN_OP(&)
+	BIN_OP(^)
 
 	#undef BIN_OP
 
