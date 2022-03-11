@@ -23,7 +23,7 @@ inline std::vector<T> & operator+=(
 	return vec;
 }
 
-template<typename T, std::size_t SIZE>
+template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
 	const std::vector<T> & arr) {	
