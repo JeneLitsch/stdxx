@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "iterator.hxx"
 
 namespace stx {
