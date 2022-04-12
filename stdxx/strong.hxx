@@ -10,7 +10,7 @@ namespace stx {
 		// Copy to same type
 		constexpr strong(const strong &) = default;
 		constexpr strong(strong &&) = default;
-		constexpr strong & operator=(const strong &&) = default;
+		constexpr strong & operator=(const strong &) = default;
 		constexpr strong & operator=(strong &&) = default;
 		
 		// Explicit casting

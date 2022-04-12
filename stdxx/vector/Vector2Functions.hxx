@@ -3,6 +3,8 @@
 #include <cmath>
 
 namespace stx {
+
+	
 	template<class Arithmetic, class FlavorL, class FlavorR>
 	constexpr Arithmetic dot(
 		const vector2<Arithmetic, FlavorL> & l,
@@ -78,5 +80,20 @@ namespace stx {
 	constexpr auto center(
 		const size2<Arithmetic> & size) {
 		return position2<Arithmetic>{size / 2.f}; 
+	}
+
+	template<class Arithmetic, class Flavor>
+	constexpr radians_t<Arithmetic> angle(const vector2<Arithmetic, Flavor> & v) {
+		return std::atan2(v.y, v.x);
+	}
+
+	template<class Arithmetic, class Flavor>
+	constexpr auto rotate_90_cw(const vector2<Arithmetic, Flavor> & v) {
+		return vector2<Arithmetic, Flavor>(-v.y, v.x);
+	}
+
+	template<class Arithmetic, class Flavor>
+	constexpr auto rotate_90_ccw(const vector2<Arithmetic, Flavor> & v) {
+		return vector2<Arithmetic, Flavor>(v.y, -v.x);
 	}
 }
