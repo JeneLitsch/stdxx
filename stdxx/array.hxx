@@ -33,6 +33,14 @@ inline std::vector<T> & operator+=(
 	return vec;
 }
 
+template<typename T>
+inline std::vector<T> & operator+=(
+	std::vector<T> & vec,
+	const T & t) {	
+	vec.push_back(t);
+	return vec;
+}
+
 namespace stx {
 	template<typename T>
 	inline void append(std::vector<T> & vec, const auto & elems) {
