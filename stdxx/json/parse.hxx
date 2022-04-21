@@ -120,7 +120,7 @@ namespace stx::json {
 
 
 
-	std::istream & operator>>(std::istream & in, node & node) {
+	inline std::istream & operator>>(std::istream & in, node & node) {
 		node = do_not_touch::parse(in);
 		return in;
 	}
