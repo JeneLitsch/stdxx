@@ -9,7 +9,7 @@ namespace stx::json {
 		node parse(std::istream & in);
 
 
-		bool match(std::istream & in, char c) {
+		inline bool match(std::istream & in, char c) {
 			in >> std::ws;
 			if(in.peek() == c) {
 				in.ignore();
@@ -20,7 +20,7 @@ namespace stx::json {
 
 		
 		
-		auto keyword(std::istream & in) {
+		inline auto keyword(std::istream & in) {
 			std::string str;
 			while(true) {
 				const int c = in.peek();
@@ -34,7 +34,7 @@ namespace stx::json {
 
 
 
-		std::string parse_string(std::istream & in) {
+		inline std::string parse_string(std::istream & in) {
 			std::string str;
 			in >> std::ws >> escaped(str);
 			if(in.fail()) throw std::runtime_error{"Invalid string literal"};
@@ -43,7 +43,7 @@ namespace stx::json {
 
 
 
-		double parse_number(std::istream & in) {
+		inline double parse_number(std::istream & in) {
 			double num;
 			in >> std::ws >> num;
 			if(in.fail()) throw std::runtime_error{"Invalid Number literal"};
@@ -52,7 +52,7 @@ namespace stx::json {
 
 
 
-		auto parse_collection(std::istream & in, char begin, char end, auto fx_elem) {
+		inline auto parse_collection(std::istream & in, char begin, char end, auto fx_elem) {
 			std::vector<decltype(fx_elem(in))> arr;
 			
 			if(!match(in, begin)) throw std::runtime_error {
@@ -78,13 +78,13 @@ namespace stx::json {
 
 
 
-		auto parse_array(std::istream & in) {
+		inline auto parse_array(std::istream & in) {
 			return parse_collection(in, '[', ']', parse);
 		}
 
 
 
-		auto parse_entry(std::istream & in) {
+		inline auto parse_entry(std::istream & in) {
 			std::string key = parse_string(in);
 			if(!match(in, ':')) {
 				throw std::runtime_error("Expected : between and value");
@@ -93,13 +93,13 @@ namespace stx::json {
 		}
 
 
-		auto parse_object(std::istream & in) {
+		inline auto parse_object(std::istream & in) {
 			return parse_collection(in, '{', '}', parse_entry);
 		}
 
 
 
-		node parse(std::istream & in)  {
+		inline node parse(std::istream & in)  {
 			in >> std::ws;
 
 			const int c = in.peek();

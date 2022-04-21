@@ -8,31 +8,31 @@ namespace stx::json {
 	std::ostream & operator<<(std::ostream & out, const node & n);
 
 	namespace do_not_touch {
-		void print(std::ostream & out, std::monostate) {
+		inline void print(std::ostream & out, std::monostate) {
 			out << "null";
 		}
 
 
 
-		void print(std::ostream & out, double value) {
+		inline void print(std::ostream & out, double value) {
 			out << std::setprecision(10) << value;
 		}
 
 
 
-		void print(std::ostream & out, bool value) {
+		inline void print(std::ostream & out, bool value) {
 			out << std::boolalpha << value;
 		}
 
 
 
-		void print(std::ostream & out, const std::string & value) {
+		inline void print(std::ostream & out, const std::string & value) {
 			out << escaped(value);
 		}
 
 
 
-		void print(std::ostream & out, const std::vector<node> & nodes) {
+		inline void print(std::ostream & out, const std::vector<node> & nodes) {
 			out << "[";
 			bool first = true;
 			for(const auto & n : nodes) {
@@ -45,7 +45,7 @@ namespace stx::json {
 
 
 
-		void print(std::ostream & out, const std::vector<std::pair<std::string, node>> & dict) {
+		inline void print(std::ostream & out, const std::vector<std::pair<std::string, node>> & dict) {
 			out << "{";
 			bool first = true;
 			for(const auto & [key, n] : dict) {
@@ -57,7 +57,7 @@ namespace stx::json {
 		}
 	}
 
-	std::ostream & operator<<(std::ostream & out, const node & n) {
+	inline std::ostream & operator<<(std::ostream & out, const node & n) {
 		std::visit([&out](auto x) { do_not_touch::print(out, x); }, n.data);
 		return out;
 	}
