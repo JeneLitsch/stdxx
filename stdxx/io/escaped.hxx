@@ -21,10 +21,12 @@ namespace stx {
 				if(c == '"') return;
 				if(c == '\\') {
 					switch (in.get()) {
+					case 'b':  c = '\b'; break;
+					case 'f':  c = '\f'; break;
 					case 'n':  c = '\n'; break;
-					case '"':  c = '\"'; break;
-					case 't':  c = '\t'; break;
 					case 'r':  c = '\r'; break;
+					case 't':  c = '\t'; break;
+					case '"':  c = '\"'; break;
 					case '\\': c = '\\'; break;
 					
 					default: return in.setstate(std::ios_base::failbit);
@@ -40,9 +42,11 @@ namespace stx {
 			out << '"';
 			for(const char c : str) {
 				switch (c) {
+				case '\b': out << "\\b"; break;
+				case '\f': out << "\\f"; break;
 				case '\n': out << "\\n"; break;
-				case '\t': out << "\\t"; break;
 				case '\r': out << "\\r"; break;
+				case '\t': out << "\\t"; break;
 				case '\"': out << "\\\""; break;
 				case '\\': out << "\\\\"; break;				
 				default: out << c;

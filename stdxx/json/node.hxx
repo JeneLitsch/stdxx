@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include "../concepts.hxx"
 
 namespace stx::json {
 	struct node final {
@@ -18,13 +19,7 @@ namespace stx::json {
 		node(std::integral auto value)
 			: data{static_cast<double>(value)} {}
 		
-		node(const char * value)
-			: data{std::string{value}} {}
-		
-		node(const std::string & value)
-			: data{std::string{value}} {}
-
-		node(const std::string_view & value)
+		node(const stx::string_like auto & value)
 			: data{std::string{value}} {}
 
 		node(const std::vector<node> & value)

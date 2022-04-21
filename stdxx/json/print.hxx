@@ -6,36 +6,33 @@
 
 namespace stx::json {
 	std::ostream & operator<<(std::ostream & out, const node & n);
-	struct Printer {
-		std::ostream & out;
 
-
-
-		void operator()(std::monostate) {
+	namespace do_not_touch {
+		void print(std::ostream & out, std::monostate) {
 			out << "null";
 		}
 
 
 
-		void operator()(double value) {
+		void print(std::ostream & out, double value) {
 			out << std::setprecision(10) << value;
 		}
 
 
 
-		void operator()(bool value) {
+		void print(std::ostream & out, bool value) {
 			out << std::boolalpha << value;
 		}
 
 
 
-		void operator()(const std::string & value) {
+		void print(std::ostream & out, const std::string & value) {
 			out << escaped(value);
 		}
 
 
 
-		void operator()(const std::vector<node> & nodes) {
+		void print(std::ostream & out, const std::vector<node> & nodes) {
 			out << "[";
 			bool first = true;
 			for(const auto & n : nodes) {
@@ -48,7 +45,7 @@ namespace stx::json {
 
 
 
-		void operator()(const std::vector<std::pair<std::string, node>> & dict) {
+		void print(std::ostream & out, const std::vector<std::pair<std::string, node>> & dict) {
 			out << "{";
 			bool first = true;
 			for(const auto & [key, n] : dict) {
@@ -58,11 +55,10 @@ namespace stx::json {
 			}
 			out << "}";
 		}
-	};
-	
+	}
+
 	std::ostream & operator<<(std::ostream & out, const node & n) {
-		Printer printer{out};
-		std::visit(printer, n.data);
+		std::visit([&out](auto x) { do_not_touch::print(out, x); }, n.data);
 		return out;
 	}
 }

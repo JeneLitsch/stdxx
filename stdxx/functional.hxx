@@ -5,11 +5,15 @@ namespace stx {
 		return *ptr_like;
 	}
 
+
+
 	constexpr auto before(auto main_fx, auto called_before) {
 		return [main_fx, called_before] (auto & param) {
 			return main_fx(called_before(param));
 		};
 	}
+
+
 
 	// For predicate functions: Derefs the single parameter
 	// Allows to use algorithms on containers with pointer types.
