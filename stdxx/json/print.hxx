@@ -1,36 +1,39 @@
 #pragma once
 #include "node.hxx"
 #include <ostream>
+#include <iomanip>
+#include "../io/escaped.hxx"
+
 namespace stx::json {
 	std::ostream & operator<<(std::ostream & out, const node & n);
 	struct Printer {
 		std::ostream & out;
 
+
+
 		void operator()(std::monostate) {
 			out << "null";
 		}
 
+
+
 		void operator()(double value) {
-			out << value;
+			out << std::setprecision(10) << value;
 		}
+
+
 
 		void operator()(bool value) {
-			out << value;
+			out << std::boolalpha << value;
 		}
 
+
+
 		void operator()(const std::string & value) {
-			out << '"';
-			for(const char c : value) {
-				switch (c) {
-				case '\n': out << "\\n"; break;
-				case '\t': out << "\\t"; break;
-				case '\"': out << "\\\""; break;
-				case '\\': out << "\\\\"; break;				
-				default: out << c;
-				}
-			}
-			out << '"';
+			out << escaped(value);
 		}
+
+
 
 		void operator()(const std::vector<node> & nodes) {
 			out << "[";
@@ -42,6 +45,8 @@ namespace stx::json {
 			}
 			out << "]";
 		}
+
+
 
 		void operator()(const std::vector<std::pair<std::string, node>> & dict) {
 			out << "{";

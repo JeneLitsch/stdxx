@@ -2,18 +2,11 @@
 #include "node.hxx"
 #include <istream>
 #include <iostream>
+#include "../io/escaped.hxx"
 
 namespace stx::json {
 	namespace do_not_touch {
 		node parse(std::istream & in);
-	
-		char desecape(char second) {
-			if(second == 'n')  return '\n';
-			if(second == '"')  return '\"';
-			if(second == 't')  return '\t';
-			if(second == '\\') return '\\';
-			throw std::runtime_error{"Invalid escape sequence"};
-		} 
 
 
 		bool match(std::istream & in, char c) {
@@ -25,20 +18,26 @@ namespace stx::json {
 			return false;
 		}
 
+		
+		
+		auto keyword(std::istream & in) {
+			std::string str;
+			while(true) {
+				const int c = in.peek();
+				if(std::isalpha(c)) {
+					str.push_back(static_cast<char>(c));
+					in.ignore();
+				}
+				else return str;
+			}
+		}
+
 
 
 		std::string parse_string(std::istream & in) {
-			if(!match(in, '"')) {
-				throw std::runtime_error{
-					"String must start with \""};
-			}
 			std::string str;
-			while(true) {
-				char c = in.get();
-				if(c == '"') break;
-				if(c == '\\') c = desecape(in.get());
-				str.push_back(c);
-			}
+			in >> std::ws >> escaped(str);
+			if(in.fail()) throw std::runtime_error{"Invalid string literal"};
 			return str;
 		}
 
@@ -46,90 +45,80 @@ namespace stx::json {
 
 		double parse_number(std::istream & in) {
 			double num;
-			in >> num;
+			in >> std::ws >> num;
+			if(in.fail()) throw std::runtime_error{"Invalid Number literal"};
 			return num;
 		}
 
 
 
-		std::vector<node> parse_array(std::istream & in) {
-			if(!match(in, '[')) {
-				throw std::runtime_error("Array mmust begin with [");
-			}
-			std::vector<node> arr;
+		auto parse_collection(std::istream & in, char begin, char end, auto fx_elem) {
+			std::vector<decltype(fx_elem(in))> arr;
+			
+			if(!match(in, begin)) throw std::runtime_error {
+				std::string("Must begin with ") + begin
+			};
+			
+			if(match(in, end)) return arr;
 
-			if(match(in, ']')) {
-				return arr;
-			}
 			else while (true) {
-				arr.push_back(parse(in));
-				if(in.eof()) {
-					throw std::runtime_error{
-						"Unterminated Array"};
-				}
-				if(match(in, ']')) return arr;
-				if(!match(in, ',')) {
-					throw std::runtime_error{
-						"Expected comma between elements in array"};
-				}
+				arr.push_back(fx_elem(in));
+				
+				if(in.eof()) throw std::runtime_error {
+					"Unterminated"
+				};
+				
+				if(match(in, end)) return arr;
+				
+				if(!match(in, ',')) throw std::runtime_error {
+					"Expected comma between elements"
+				};
 			}
 		}
 
 
 
-		std::vector<std::pair<std::string, node>>
-		parse_object(std::istream & in) {
-			std::vector<std::pair<std::string, node>> dict;
-		
-			if(!match(in, '{')) {
-				throw std::runtime_error("Object mmust begin with {");
+		auto parse_array(std::istream & in) {
+			return parse_collection(in, '[', ']', parse);
+		}
+
+
+
+		auto parse_entry(std::istream & in) {
+			std::string key = parse_string(in);
+			if(!match(in, ':')) {
+				throw std::runtime_error("Expected : between and value");
 			}
-			if(match(in, '}')) {
-				return dict;
-			}
-			else while (true) {
-				std::string key = parse_string(in);
-				if(!match(in, ':')) {
-					throw std::runtime_error("Expected : between and value");
-				}
-				dict.push_back({key, parse(in)});
-				if(in.eof()) {
-					throw std::runtime_error("Unterminated Object");
-				}
-				if(match(in, '}')) return dict;
-				if(!match(in, ',')) {
-					std::cerr << in.peek() << "\n"; 
-					throw std::runtime_error("Expectd comma between elements in object");
-				}
-			}
+			return std::pair{key, parse(in)};
+		}
+
+
+		auto parse_object(std::istream & in) {
+			return parse_collection(in, '{', '}', parse_entry);
 		}
 
 
 
 		node parse(std::istream & in)  {
 			in >> std::ws;
-			char c = in.peek();
 
-			if(c == '"') {
-				return node(parse_string(in));
-			}
-			
-			if(std::isdigit(c)) {
-				return node(parse_number(in));
-			}
+			const int c = in.peek();
+			if(c == '"')        return node(parse_string(in));
+			if(c == '-')        return node(parse_number(in));
+			if(std::isdigit(c)) return node(parse_number(in));
+			if(c == '[') 	    return node(parse_array(in));
+			if(c == '{') 		return node(parse_object(in));
 
-			if(c == '[') {
-				return node(parse_array(in));
-			}
+			const auto str = keyword(in);
+			if(str == "true")  return node(true);
+			if(str == "false") return node(false);
+			if(str == "null")  return node(nullptr);
 
-			if(c == '{') {
-				return node(parse_object(in));
-			}
-			
 			throw std::runtime_error{"Invalid json node"};
 		}
-
 	}
+
+
 
 	std::istream & operator>>(std::istream & in, node & node) {
 		node = do_not_touch::parse(in);
