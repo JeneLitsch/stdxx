@@ -3,26 +3,49 @@
 namespace stx::json {
 	class iterator {
 	public:
+
 		iterator(const node * node) : n(node) {}
+		iterator(const node & node) : n(&node) {}
 		
-		bool null() const {
-			if(!n) return false;
-			return std::get_if<std::monostate>(&n->data);
-		}
+
 
 		operator bool() const {
 			return n;
 		}
 
-		const double * number() const {
-			if(!n) return nullptr;
-			return std::get_if<double>(&n->data);
+
+
+		bool boolean_or(const auto & alt) const {
+			if(auto * val = this->boolean()) return *val;
+			return static_cast<bool>(alt);
 		}
-		
+
+		double number_or(const auto & alt) const {
+			if(auto * val = this->number()) return *val;
+			return static_cast<double>(alt);
+		}
+
+		std::string string_or(const auto & alt) const {
+			if(auto * val = this->string()) return *val;
+			return static_cast<std::string>(alt);
+		}
+
+
+
+		bool null() const {
+			if(!n) return false;
+			return std::get_if<std::monostate>(&n->data);
+		}
+
 		const bool * boolean() const {
 			if(!n) return nullptr;
 			return std::get_if<bool>(&n->data);
 		}
+
+		const double * number() const {
+			if(!n) return nullptr;
+			return std::get_if<double>(&n->data);
+		}	
 
 		const std::string * string() const {
 			if(!n) return nullptr;
@@ -39,6 +62,8 @@ namespace stx::json {
 			return std::get_if<std::vector<std::pair<std::string, node>>>(&n->data);
 		}
 
+
+
 		iterator operator[](std::size_t i) const {
 			if(!n) {
 				return iterator(nullptr);
@@ -50,7 +75,6 @@ namespace stx::json {
 			auto * elem = &(*arr)[i];
 			return iterator(elem);
 		}
-
 
 		iterator operator[](std::integral auto i) const {
 			return this->operator[](static_cast<std::size_t>(i));
@@ -76,6 +100,8 @@ namespace stx::json {
 			return (*this)[std::string(str)];
 		}
 
+
+
 		std::size_t size() const {
 			if(!n) return 0;
 			if(auto arr = this->array()) {
@@ -83,6 +109,7 @@ namespace stx::json {
 			}
 			return 0;
 		}
+
 	private:
 		const node * n;
 		inline static const std::vector<node> empty;

@@ -110,9 +110,9 @@ namespace stx::json {
 			if(c == '{') 		return node(parse_object(in));
 
 			const auto str = keyword(in);
-			if(str == "true")  return node(true);
-			if(str == "false") return node(false);
-			if(str == "null")  return node(nullptr);
+			if(str == "true")   return node(true);
+			if(str == "false")  return node(false);
+			if(str == "null")   return node(nullptr);
 
 			throw std::runtime_error{"Invalid json node"};
 		}
