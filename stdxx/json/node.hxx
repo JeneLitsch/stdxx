@@ -22,10 +22,10 @@ namespace stx::json {
 		node(const stx::string_like auto & value)
 			: data{std::string{value}} {}
 
-		node(const std::vector<node> & value)
+		explicit node(const std::vector<node> & value)
 			: data{value} {}
 
-		node(const std::initializer_list<node> & value)
+		explicit node(const std::initializer_list<node> & value)
 			: node(std::vector(value)) {}
 
 		node(const std::vector<std::pair<std::string, node>> & value)
