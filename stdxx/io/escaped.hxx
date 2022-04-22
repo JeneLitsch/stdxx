@@ -28,6 +28,7 @@ namespace stx {
 					case 't':  c = '\t'; break;
 					case '"':  c = '\"'; break;
 					case '\\': c = '\\'; break;
+					case '/': c = '/'; break;
 					
 					default: return in.setstate(std::ios_base::failbit);
 					}
