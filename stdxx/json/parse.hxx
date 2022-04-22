@@ -1,7 +1,10 @@
 #pragma once
-#include "node.hxx"
 #include <istream>
 #include <iostream>
+
+#include "node.hxx"
+#include "error.hxx"
+
 #include "../io/escaped.hxx"
 
 namespace stx::json {
@@ -37,7 +40,9 @@ namespace stx::json {
 		inline std::string parse_string(std::istream & in) {
 			std::string str;
 			in >> std::ws >> escaped(str);
-			if(in.fail()) throw std::runtime_error{"Invalid string literal"};
+			if(in.fail()) throw syntax_error{
+				"Invalid string literal"
+			};
 			return str;
 		}
 
@@ -46,7 +51,9 @@ namespace stx::json {
 		inline double parse_number(std::istream & in) {
 			double num;
 			in >> std::ws >> num;
-			if(in.fail()) throw std::runtime_error{"Invalid Number literal"};
+			if(in.fail()) throw syntax_error{
+				"Invalid Number literal"
+			};
 			return num;
 		}
 
@@ -55,7 +62,7 @@ namespace stx::json {
 		inline auto parse_collection(std::istream & in, char begin, char end, auto fx_elem) {
 			std::vector<decltype(fx_elem(in))> arr;
 			
-			if(!match(in, begin)) throw std::runtime_error {
+			if(!match(in, begin)) throw syntax_error {
 				std::string("Must begin with ") + begin
 			};
 			
@@ -64,13 +71,13 @@ namespace stx::json {
 			else while (true) {
 				arr.push_back(fx_elem(in));
 				
-				if(in.eof()) throw std::runtime_error {
+				if(in.eof()) throw syntax_error {
 					"Unterminated"
 				};
 				
 				if(match(in, end)) return arr;
 				
-				if(!match(in, ',')) throw std::runtime_error {
+				if(!match(in, ',')) throw syntax_error {
 					"Expected comma between elements"
 				};
 			}
@@ -87,7 +94,7 @@ namespace stx::json {
 		inline auto parse_entry(std::istream & in) {
 			std::string key = parse_string(in);
 			if(!match(in, ':')) {
-				throw std::runtime_error("Expected : between and value");
+				throw syntax_error("Expected : between and value");
 			}
 			return std::pair{key, parse(in)};
 		}
@@ -114,7 +121,7 @@ namespace stx::json {
 			if(str == "false")  return node(false);
 			if(str == "null")   return node(nullptr);
 
-			throw std::runtime_error{"Invalid json node"};
+			throw syntax_error{"Invalid json node"};
 		}
 	}
 

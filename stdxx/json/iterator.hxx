@@ -1,7 +1,12 @@
 #pragma once
 #include "node.hxx"
+#include "error.hxx"
+
 namespace stx::json {
 	class iterator {
+		inline static constexpr auto not_a_boolean = "Cannot extract boolean";
+		inline static constexpr auto not_a_number  = "Cannot extract number";
+		inline static constexpr auto not_a_string  = "Cannot extract string";
 	public:
 
 		iterator(const node * node) : n(node) {}
@@ -28,6 +33,25 @@ namespace stx::json {
 		std::string string_or(const auto & alt) const {
 			if(auto * val = this->string()) return *val;
 			return static_cast<std::string>(alt);
+		}
+
+
+	
+
+
+		bool force_boolean(const std::string & error_msg = not_a_boolean) const {
+			if(auto * val = this->boolean()) return *val;
+			throw stx::json::format_error{error_msg};
+		}
+
+		double force_number(const std::string & error_msg = not_a_number) const {
+			if(auto * val = this->number()) return *val;
+			throw stx::json::format_error{error_msg};
+		}
+
+		std::string force_string(const std::string & error_msg = not_a_string) const {
+			if(auto * val = this->string()) return *val;
+			throw stx::json::format_error{error_msg};
 		}
 
 
