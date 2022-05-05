@@ -76,15 +76,7 @@ namespace stx::json {
 			return std::get_if<std::string>(&n->data);
 		}
 
-		const std::vector<node> * array() const {
-			if(!n) return nullptr;
-			return std::get_if<std::vector<node>>(&n->data);
-		}
 
-		const std::vector<std::pair<std::string, node>> * object() const {
-			if(!n) return nullptr;
-			return std::get_if<std::vector<std::pair<std::string, node>>>(&n->data);
-		}
 
 
 
@@ -95,9 +87,11 @@ namespace stx::json {
 			if(i >= this->size()) {
 				return iterator(nullptr);
 			}
-			auto * arr = this->array();
-			auto * elem = &(*arr)[i];
-			return iterator(elem);
+			if(auto arr = std::get_if<std::vector<node>>(&n->data)) {
+				auto * elem = &(*arr)[i];
+				return iterator(elem);
+			} 
+			else return nullptr;
 		}
 
 		iterator operator[](std::integral auto i) const {
@@ -108,8 +102,10 @@ namespace stx::json {
 			if(!n) {
 				return iterator(nullptr);
 			}
-			if(auto * arr = this->object()) {
-				for(const auto & [key, value] : *arr) {
+			using Dict = std::vector<std::pair<std::string, node>>;
+			auto * dict = std::get_if<Dict>(&n->data);
+			if(dict) {
+				for(const auto & [key, value] : *dict) {
 					if(key == str) return iterator(&value);
 				}
 			}
@@ -128,7 +124,7 @@ namespace stx::json {
 
 		std::size_t size() const {
 			if(!n) return 0;
-			if(auto arr = this->array()) {
+			if(auto arr = std::get_if<std::vector<node>>(&n->data)) {
 				return arr->size();
 			}
 			return 0;
@@ -138,4 +134,13 @@ namespace stx::json {
 		const node * n;
 		inline static const std::vector<node> empty;
 	};
+
+
+	inline auto to_array(stx::json::iterator it) {
+		std::vector<stx::json::iterator> arr;
+		for(std::size_t i = 0; i < it.size(); i++) {
+			arr.push_back(it[i]);
+		}
+		return arr;
+	}
 }
