@@ -18,15 +18,6 @@ namespace stx {
 		return std::sqrt(vector.x * vector.x + vector.y * vector.y);
 	}
 
-	template<class Arithmetic, class Flavor, class Float>
-	constexpr auto lerp(
-		const vector2<Arithmetic, Flavor> & a,
-		const vector2<Arithmetic, Flavor> & b,
-		Float t) {
-		return vector2<Arithmetic, Flavor>(
-			std::lerp(a.x, b.x, t),
-			std::lerp(a.y, b.y, t));
-	}
 
 	template<class Arithmetic, class Flavor>
 	constexpr auto round(

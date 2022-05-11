@@ -1,9 +1,20 @@
 #pragma once
 #include <iterator>
 #include <cmath>
-#include "concepts.hxx"
+#include "../concepts.hxx"
 
 namespace stx {
+	template<typename T>
+	concept default_lerpable = requires(T a, T b) {
+		a + 0.5 * (b - 0.5);
+	};
+
+
+	auto lerp(default_lerpable auto a, default_lerpable auto b, std::floating_point auto t) {
+		return a + t * (b - a);
+	}
+
+
 
 	auto lerp(const color_rgb auto & c1, const color_rgb auto & c2,	auto t) {
 		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
@@ -12,7 +23,9 @@ namespace stx {
 		return decltype(c1){r, g, b};
 	}
 
-	auto lerp(const color_rgba auto & c1, const color_rgba auto & c2,	auto t) {
+
+
+	auto lerp(const color_rgba auto & c1, const color_rgba auto & c2, auto t) {
 		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
 		const auto g = static_cast<std::uint8_t>(std::lerp(c1.g, c2.g, t));
 		const auto b = static_cast<std::uint8_t>(std::lerp(c1.b, c2.b, t));
@@ -20,11 +33,15 @@ namespace stx {
 		return decltype(c1){r, g, b, a};
 	}
 
+
+
 	auto lerp(const vector_2 auto & v1, const vector_2 auto & v2, auto t) {
 		const auto x = lerp(v1.x, v2.x, t);
 		const auto y = lerp(v1.y, v2.y, t);
 		return decltype(v1) {x, y};
 	}
+
+
 
 	auto lerp(const vector_3 auto & v1, const vector_3 auto & v2, auto t) {
 		const auto x = lerp(v1.x, v2.x, t);
@@ -33,10 +50,8 @@ namespace stx {
 		return decltype(v1) {x, y, z};
 	}
 
-	auto lerp(default_lerpable auto a, default_lerpable auto b, auto t) {
-		return (1 - t) * a + t * b;
-	}
-	
+
+
 	auto lerp(
 		std::input_iterator auto begin,
 		std::input_iterator auto end,

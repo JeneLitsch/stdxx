@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
-#include "lerp.hxx"
+#include "math/lerp.hxx"
 #include "iterator.hxx"
 
 namespace stx {
