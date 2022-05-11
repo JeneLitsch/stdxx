@@ -1,6 +1,7 @@
 #pragma once
 #include "node.hxx"
 #include "error.hxx"
+#include "../optional.hxx"
 
 namespace stx::json {
 	class iterator {
@@ -44,23 +45,17 @@ namespace stx::json {
 
 		std::optional<bool> boolean() const {
 			if(!n) return std::nullopt;
-			auto value = std::get_if<bool>(&n->data);
-			if(!value) return std::nullopt;
-			return *value;
+			return opt_from_ptr(std::get_if<bool>(&n->data));
 		}
 
 		std::optional<double> number() const {
 			if(!n) return std::nullopt;
-			auto value = std::get_if<double>(&n->data);
-			if(!value) return std::nullopt;
-			return *value;
+			return opt_from_ptr(std::get_if<double>(&n->data));
 		}	
 
 		std::optional<std::string> string() const {
 			if(!n) return std::nullopt;
-			auto value = std::get_if<std::string>(&n->data);
-			if(!value) return std::nullopt;
-			return *value;
+			return opt_from_ptr(std::get_if<std::string>(&n->data));
 		}
 
 
