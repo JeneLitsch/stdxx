@@ -20,37 +20,18 @@ namespace stx::json {
 
 
 
-		bool boolean_or(const auto & alt) const {
-			if(auto * val = this->boolean()) return *val;
-			return static_cast<bool>(alt);
-		}
-
-		double number_or(const auto & alt) const {
-			if(auto * val = this->number()) return *val;
-			return static_cast<double>(alt);
-		}
-
-		std::string string_or(const auto & alt) const {
-			if(auto * val = this->string()) return *val;
-			return static_cast<std::string>(alt);
-		}
-
-
-	
-
-
 		bool force_boolean(const std::string & error_msg = not_a_boolean) const {
-			if(auto * val = this->boolean()) return *val;
+			if(auto val = this->boolean()) return *val;
 			throw stx::json::format_error{error_msg};
 		}
 
 		double force_number(const std::string & error_msg = not_a_number) const {
-			if(auto * val = this->number()) return *val;
+			if(auto val = this->number()) return *val;
 			throw stx::json::format_error{error_msg};
 		}
 
 		std::string force_string(const std::string & error_msg = not_a_string) const {
-			if(auto * val = this->string()) return *val;
+			if(auto val = this->string()) return *val;
 			throw stx::json::format_error{error_msg};
 		}
 
@@ -61,19 +42,25 @@ namespace stx::json {
 			return std::get_if<std::monostate>(&n->data);
 		}
 
-		const bool * boolean() const {
-			if(!n) return nullptr;
-			return std::get_if<bool>(&n->data);
+		std::optional<bool> boolean() const {
+			if(!n) return std::nullopt;
+			auto value = std::get_if<bool>(&n->data);
+			if(!value) return std::nullopt;
+			return *value;
 		}
 
-		const double * number() const {
-			if(!n) return nullptr;
-			return std::get_if<double>(&n->data);
+		std::optional<double> number() const {
+			if(!n) return std::nullopt;
+			auto value = std::get_if<double>(&n->data);
+			if(!value) return std::nullopt;
+			return *value;
 		}	
 
-		const std::string * string() const {
-			if(!n) return nullptr;
-			return std::get_if<std::string>(&n->data);
+		std::optional<std::string> string() const {
+			if(!n) return std::nullopt;
+			auto value = std::get_if<std::string>(&n->data);
+			if(!value) return std::nullopt;
+			return *value;
 		}
 
 
