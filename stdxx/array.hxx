@@ -48,6 +48,16 @@ inline std::vector<T> & operator+=(
 template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
+	const std::span<const T> & arr) {	
+	for(const auto e : arr) {
+		vec.push_back(e);
+	}
+	return vec;
+}
+
+template<typename T>
+inline std::vector<T> & operator+=(
+	std::vector<T> & vec,
 	const T & t) {	
 	vec.push_back(t);
 	return vec;
