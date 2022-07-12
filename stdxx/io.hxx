@@ -114,9 +114,9 @@ std::ostream & operator<<(
 	std::ostream & out,
 	const stx::iterator_range<Iterator> & range) {	
 	out << "{";
-	for(auto it = range.begin; it != range.end; it++) {
-		if(it != range.begin) {
-			out << ",";
+	for(auto it = range.begin(); it != range.end(); it++) {
+		if(it != range.begin()) {
+			out << ", ";
 		}
 		out << *it;
 	}
