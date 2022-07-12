@@ -32,13 +32,6 @@ namespace stx {
 
 
 
-	template<typename T>
-	concept default_lerpable = requires(T a, T b) {
-		a + 0.5 * (b - 0.5);
-	};
-
-
-
 	template<typename Arr>
 	concept ranged_array = requires(Arr arr) {
 		arr.begin();

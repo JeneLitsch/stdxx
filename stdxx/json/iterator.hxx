@@ -45,17 +45,17 @@ namespace stx::json {
 
 		std::optional<bool> boolean() const {
 			if(!n) return std::nullopt;
-			return opt_from_ptr(std::get_if<bool>(&n->data));
+			return as_optional(std::get_if<bool>(&n->data));
 		}
 
 		std::optional<double> number() const {
 			if(!n) return std::nullopt;
-			return opt_from_ptr(std::get_if<double>(&n->data));
+			return as_optional(std::get_if<double>(&n->data));
 		}	
 
 		std::optional<std::string> string() const {
 			if(!n) return std::nullopt;
-			return opt_from_ptr(std::get_if<std::string>(&n->data));
+			return as_optional(std::get_if<std::string>(&n->data));
 		}
 
 

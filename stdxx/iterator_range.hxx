@@ -20,6 +20,14 @@ namespace stx {
 		Iter cend() const { return this->end_it; };
 
 
+		std::size_t size() const {
+			return std::distance(this->begin_it, this->end_it);
+		}
+
+		bool empty() const {
+			return this->size() == 0;
+		}
+
 		#define UNPACK\
 			if constexpr (I == 0) return begin_it;\
 			if constexpr (I == 1) return end_it;

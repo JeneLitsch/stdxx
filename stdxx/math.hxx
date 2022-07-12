@@ -2,6 +2,8 @@
 #include <numbers>
 #include <cmath>
 #include "vector.hxx"
+#include "math/lerp.hxx"
+#include "math/clamp.hxx"
 
 namespace stx {
 	constexpr auto fast_sig(auto x) {
@@ -18,6 +20,6 @@ namespace stx {
 	}
 
 	constexpr auto wrap(auto x, auto y) {
-		return  mod(mod(x, y) + y, y);
+		return mod(mod(x, y) + y, y);
 	}
 }
