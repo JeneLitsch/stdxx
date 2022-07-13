@@ -83,18 +83,6 @@ namespace stx {
 
 
 
-	inline bool isEof(std::istream & stream) {
-		return stream.eof();
-	}
-
-
-
-	inline bool isEof() {
-		return isEof(std::cin);
-	}
-
-
-
 	template<typename T>
 	inline std::tuple<T> read_n(std::istream & in) {
 		return std::make_tuple(read<T>(in));
@@ -134,12 +122,16 @@ namespace stx {
 	}
 }
 
+
+
 std::ostream & operator<<(std::ostream & out, const stx::color_rgb auto & color) {
 	return out << "rgb(" 
 		<< static_cast<unsigned>(color.r) << ","
 		<< static_cast<unsigned>(color.g) << ","
 		<< static_cast<unsigned>(color.b) << ")";
 }
+
+
 
 std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color) {
 	return out << "rgba(" 
@@ -149,17 +141,15 @@ std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color
 		<< static_cast<unsigned>(color.a) << ")";
 }
 
+
+
 template<typename Iterator>
 std::ostream & operator<<(
 	std::ostream & out,
 	const stx::iterator_range<Iterator> & range) {	
 	out << "{";
-	for(auto it = range.begin(); it != range.end(); it++) {
-		if(it != range.begin()) {
-			out << ", ";
-		}
-		out << *it;
-	}
+	auto [begin, end] = range;
+	stx::separated(begin, end, out, ", ");
 	out << "}";
 	return out;
 }

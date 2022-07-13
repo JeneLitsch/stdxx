@@ -16,9 +16,20 @@ namespace stx {
 		return begin;
 	}
 
+	
+	
 	void for_each_if(auto begin, auto end, auto pred, auto op) {
 		std::for_each(begin, end, [pred, op] (auto & elem) {
 			if(pred(elem)) op(elem);
 		});
+	}
+
+	
+	
+	bool none_of_short_ciruit(auto begin, auto end, auto fx) {
+		for(auto it = begin; it != end; ++it) {
+			if(fx(*it)) return false; 
+		}
+		return true;
 	}
 }
