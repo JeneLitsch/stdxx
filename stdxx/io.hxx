@@ -120,6 +120,29 @@ namespace stx {
 	void separate_by(auto begin, auto end, std::ostream & out, std::string_view padding) {
 		padded(begin, end, out, padding.data());
 	}
+
+
+	template<typename Iter, typename Sep>
+	class separated {
+	public:
+		separated(Iter begin, Iter end, Sep separator) :
+			begin { begin },
+			end { end },
+			separator { separator }
+			{}
+
+		separated(stx::iterator_range<Iter> range, Sep separator) :
+			begin { range.begin() },
+			end { range.end() },
+			separator { separator }
+			{}
+
+		Iter begin;
+		Iter end;
+		Sep separator;
+	};
+
+
 }
 
 
@@ -141,14 +164,18 @@ std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color
 		<< static_cast<unsigned>(color.a) << ")";
 }
 
+template<typename Iter, typename Sep>
+std::ostream & operator<<(
+	std::ostream & out,
+	const stx::separated<Iter, Sep> & separated) {	
+	stx::separate_by(separated.begin, separated.end, out, separated.separator);
+	return out;
+}
+
 
 template<typename Iterator>
 std::ostream & operator<<(
 	std::ostream & out,
 	const stx::iterator_range<Iterator> & range) {	
-	out << "{";
-	auto [begin, end] = range;
-	stx::separate_by(begin, end, out, ", ");
-	out << "}";
-	return out;
+	return out << "{" << stx::separated { stx::whole(range), ", " } << "}";
 }
