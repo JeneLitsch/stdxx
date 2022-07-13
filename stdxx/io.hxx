@@ -107,7 +107,7 @@ namespace stx {
 
 
 
-	void separated(auto begin, auto end, std::ostream & out, const char * padding) {
+	void separate_by(auto begin, auto end, std::ostream & out, const char * padding) {
 		const char * p = "";
 		std::for_each(begin, end, [&] (auto elem) {
 			out << p << elem;
@@ -117,7 +117,7 @@ namespace stx {
 
 
 
-	void separated(auto begin, auto end, std::ostream & out, std::string_view padding) {
+	void separate_by(auto begin, auto end, std::ostream & out, std::string_view padding) {
 		padded(begin, end, out, padding.data());
 	}
 }
@@ -142,14 +142,13 @@ std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color
 }
 
 
-
 template<typename Iterator>
 std::ostream & operator<<(
 	std::ostream & out,
 	const stx::iterator_range<Iterator> & range) {	
 	out << "{";
 	auto [begin, end] = range;
-	stx::separated(begin, end, out, ", ");
+	stx::separate_by(begin, end, out, ", ");
 	out << "}";
 	return out;
 }
