@@ -18,19 +18,6 @@ namespace stx {
 		inline void read_from_stream(auto & value, std::istream & in) {
 			in >> value;
 		}
-
-		template<typename T>
-		inline void read_from_stream(std::vector<T> & array, std::istream & in) {
-			int c = (in >> std::ws).peek();
-			while (c != '-' && c != EOF) {
-				array.push_back({});
-				internal::read_from_stream(array.back(), in);
-				if(!in) throw std::runtime_error {
-					"Invalid element in option list "
-				};
-				c = (in >> std::ws).peek();
-			}
-		}
 	}
 
 
