@@ -118,7 +118,7 @@ namespace stx {
 
 
 	void separate_by(auto begin, auto end, std::ostream & out, std::string_view padding) {
-		padded(begin, end, out, padding.data());
+		return separate_by(begin, end, out, padding.data());
 	}
 
 
@@ -127,6 +127,13 @@ namespace stx {
 		Iter begin;
 		Iter end;
 		Sep separator;
+
+		friend std::ostream & operator<<(
+			std::ostream & out,
+			const stx::separated_t<Iter, Sep> & separated) {	
+			stx::separate_by(separated.begin, separated.end, out, separated.separator);
+			return out;
+		}
 	};
 
 	template<typename Iter, typename Sep>
@@ -134,7 +141,8 @@ namespace stx {
 		return separated_t<Iter, Sep> { begin, end, separator };
 	}
 
-	auto separated(auto range, auto separator) {
+	template<typename Range, typename Sep>
+	auto separated(const Range & range, Sep separator) {
 		return separated(std::begin(range), std::end(range), separator); 
 	}
 }
@@ -158,13 +166,6 @@ std::ostream & operator<<(std::ostream & out, const stx::color_rgba auto & color
 		<< static_cast<unsigned>(color.a) << ")";
 }
 
-template<typename Iter, typename Sep>
-std::ostream & operator<<(
-	std::ostream & out,
-	const stx::separated_t<Iter, Sep> & separated) {	
-	stx::separate_by(separated.begin, separated.end, out, separated.separator);
-	return out;
-}
 
 
 template<typename Iterator>

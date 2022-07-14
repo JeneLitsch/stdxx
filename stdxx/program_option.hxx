@@ -1,5 +1,6 @@
 #include <vector>
 #include <sstream>
+#include <ostream>
 #include <iterator>
 #include "memory.hxx"
 #include "algorithm.hxx"
@@ -63,6 +64,7 @@ namespace stx {
 		}
 
 		virtual bool parse(const std::string_view & name, std::istream & in) = 0;
+		virtual void mandatory() const = 0;
 
 		const std::string & get_main_name() const {
 			return this->names[0];
@@ -120,11 +122,17 @@ namespace stx {
 			return b;
 		}
 
+		virtual void mandatory() const override {
+			if(!this->set) throw std::runtime_error {
+				this->get_main_name() + " is a mandatory option."
+			};
+		}
+
 		bool is_set() const {
 			return this->set;
 		}
 	private:
-		bool set;
+		bool set = false;
 	};
 
 
@@ -152,6 +160,7 @@ namespace stx {
 		
 		virtual bool parse(const std::string_view & name, std::istream & in) override {			
 			if(!this->matches(name)) return false;
+			this->set = true;
 			internal::read_from_stream(this->value, in);
 
 			if(!in) throw std::runtime_error {
@@ -161,11 +170,18 @@ namespace stx {
 			return true;
 		}
 
+		virtual void mandatory() const override {
+			if(!this->set) throw std::runtime_error {
+				this->get_main_name() + " is a mandatory option."
+			};
+		}
+
 		const T & get() const {
 			return this->value;
 		}
 	private:
 		T value = T{};
+		bool set = false;
 	};
 
 
@@ -191,6 +207,7 @@ namespace stx {
 		
 		virtual bool parse(const std::string_view & name, std::istream & in) override {
 			if(!this->matches(name)) return false;
+			this->set = true;
 			int c = (in >> std::ws).peek();
 			while (c != '-' && c != EOF) {
 				array.push_back({});
@@ -203,10 +220,17 @@ namespace stx {
 			return true;
 		}
 
+		virtual void mandatory() const override {
+			if(!this->set || this->array.empty()) throw std::runtime_error {
+				this->get_main_name() + " is a mandatory option."
+			};
+		}
+
 		const std::vector<T> get() const {
 			return this->array;
 		}
 	private:
+		bool set = false;
 		std::vector<T> array;
 	};
 
@@ -214,8 +238,11 @@ namespace stx {
 
 	class option_description {
 	public:
-		option_description(const std::string & program_name) :
-			program_name { program_name } {}
+		option_description(
+			const std::string & program_name,
+			const std::string & overview) :
+			program_name { program_name },
+			overview { overview } {}
 
 		template<typename T>
 		T & add(
@@ -251,11 +278,20 @@ namespace stx {
 
 		std::string describe() const {
 			std::ostringstream oss;
-			oss << program_name << " options:\n";
+
+			oss	
+				<< this->program_name << "\n\n";
+
+			oss 
+				<< "Overview:\n"
+				<< "  " << this->overview << "\n\n";
+			
+			oss
+				<< "Options:\n";
 			for(const auto & option : this->options) {
 				oss
 					<< "  " << option->get_title() << " "
-					<< "[" << separated(option->get_all_names(), ", ") << "]" << "\n"
+					<< "["  << stx::separated(option->get_all_names(), ", ") << "]" << "\n"
 					<< "     " << option->get_descr() << "\n"
 					<< "\n";
 			}
@@ -295,6 +331,7 @@ namespace stx {
 	private:
 		std::vector<std::unique_ptr<option>> options;
 		std::string program_name;
+		std::string overview;
 	};
 
 
