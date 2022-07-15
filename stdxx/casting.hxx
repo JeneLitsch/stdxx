@@ -19,8 +19,4 @@ namespace stx {
 		std::memcpy(&dest, &source, sizeof(Dest));
 		return dest;
 	}
-
-
-	
-
 }
