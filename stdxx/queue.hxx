@@ -79,6 +79,12 @@ namespace stx {
 
 
 
+		void unpop() {
+			--current;
+		}
+
+
+
 		T & front() {
 			return *current;
 		}
