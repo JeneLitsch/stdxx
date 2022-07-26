@@ -1,6 +1,7 @@
 #pragma once
 #include "stdxx/args/option.hxx"
 #include "stdxx/args/read_from_stream.hxx"
+#include <optional>
 	
 namespace stx {
 	template<typename T>
@@ -8,16 +9,13 @@ namespace stx {
 	public:
 		basic_option_value(const std::vector<std::string> & names,
 			const std::string & title,
-			const std::string & descr,
-			T default_value = T{}) :
-			option { names, title, descr },
-			value { default_value } {}
+			const std::string & descr) :
+			option { names, title, descr } {}
 
 		basic_option_value(const std::string & name,
 			const std::string & title,
-			const std::string & descr,
-			T default_value = T{}) :
-			basic_option_value { std::vector{name}, title, descr, default_value } {}
+			const std::string & descr) :
+			basic_option_value { std::vector{name}, title, descr } {}
 
 		basic_option_value(const basic_option_value &) = default; 
 		basic_option_value(basic_option_value &&) = default; 
@@ -26,8 +24,9 @@ namespace stx {
 		
 		virtual bool parse(const std::string_view & name, std::istream & in) override {			
 			if(!this->matches(name)) return false;
-			this->set = true;
-			internal::read_from_stream(this->value, in);
+			T v;
+			internal::read_from_stream(v, in);
+			this->opt_v = v;
 
 			if(!in) throw std::runtime_error {
 				"Invalid option value"
@@ -37,21 +36,27 @@ namespace stx {
 		}
 
 		virtual void mandatory() const override {
-			if(!this->set) throw std::runtime_error {
+			if(!this->opt_v) throw std::runtime_error {
 				this->get_main_name() + " is a mandatory option."
 			};
 		}
 
-		const T & get() const {
-			return this->value;
+		const T value() const {
+			if(this->opt_v) return *opt_v;
+			throw std::runtime_error {
+				this->get_main_name() + " is a mandatory option."
+			};
 		}
 
-		bool is_set() const {
-			return this->set;
+		const T value_or(const T && t) const {
+			return opt_v.value_or(t);
+		}
+
+		operator bool() const {
+			return this->opt_v;
 		}
 	private:
-		T value = T{};
-		bool set = false;
+		std::optional<T> opt_v;
 	};
 
 	using option_bool = basic_option_value<bool>;

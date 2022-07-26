@@ -35,7 +35,7 @@ namespace stx {
 			};
 		}
 
-		bool is_set() const {
+		operator bool() const {
 			return this->set;
 		}
 	private:
