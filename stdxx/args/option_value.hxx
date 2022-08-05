@@ -53,7 +53,7 @@ namespace stx {
 		}
 
 		operator bool() const {
-			return this->opt_v;
+			return static_cast<bool>(this->opt_v);
 		}
 	private:
 		std::optional<T> opt_v;
