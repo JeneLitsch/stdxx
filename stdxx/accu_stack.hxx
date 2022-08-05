@@ -1,8 +1,9 @@
 #pragma once
 #include <deque>
+#include <functional>
 
 namespace stx {
-	template<typename T, typename Container = std::deque<T>>
+	template<typename T, typename Container = std::deque<T>, typename Op = std::plus<T>>
 	class accu_stack {
 	public:
 
@@ -23,13 +24,13 @@ namespace stx {
 
 
 		void push(const T & t) {
-			data.push_back(this->top() + t);
+			data.push_back(op(this->top(), t));
 		}
 
 
 
 		void push(T && t) {
-			data.push_back(this->top() + t);
+			data.push_back(op(this->top(), t));
 		}
 
 
@@ -48,7 +49,7 @@ namespace stx {
 
 		template<typename ... Args>
 		auto emplace(Args &&... args) {
-			return data.emplace_back(this->top() + T{std::forward<Args>(args)...});
+			return data.emplace_back(op(this->top(), T{std::forward<Args>(args)...}));
 		}
 
 
@@ -61,5 +62,6 @@ namespace stx {
 	private:
 		T init; 
 		Container data;
+		constexpr static Op op;
 	};
 }

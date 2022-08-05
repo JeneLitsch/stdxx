@@ -8,10 +8,11 @@ stx::accu_stack is a LIFO container adaptor.
 The accumulator stack adds any pushed value to previous top value before pushing to stack.
 
 ## Template parameter
-| Name      | Info                      |
-| -         | -                         |
-| T         | Type to store             |
-| Container | Underlying container type |
+| Name      | Info                            | Default    |
+| -         | -                               | -          |
+| T         | Type to store                   | -          |
+| Container | Underlying container type       | std::deque |
+| Op        | Operation used for accumulation | std::plus  |
 
 ## Interface
 
