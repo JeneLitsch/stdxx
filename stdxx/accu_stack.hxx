@@ -24,7 +24,7 @@ namespace stx {
 		}
 
 	private:
-		T base; 
+		T init; 
 		Container data;
 	};
 }
