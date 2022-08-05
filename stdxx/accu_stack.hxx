@@ -1,8 +1,8 @@
 #pragma once
-#include <vector>
+#include <deque>
 
 namespace stx {
-	template<typename T, typename Container = std::vector<T>>
+	template<typename T, typename Container = std::deque<T>>
 	class accu_stack {
 	public:
 		accu_stack(T init = T{}) : init { init } {}
