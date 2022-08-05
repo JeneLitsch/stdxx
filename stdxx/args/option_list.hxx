@@ -25,11 +25,11 @@ namespace stx {
 		
 		virtual bool parse(const std::string_view & name, std::istream & in) override {
 			if(!this->matches(name)) return false;
-			this->set = true;
 			int c = (in >> std::ws).peek();
+			this->opt_v = std::vector<T>{};
 			while (c != '-' && c != EOF) {
-				array.push_back({});
-				internal::read_from_stream(array.back(), in);
+				opt_v->push_back({});
+				internal::read_from_stream(opt_v->back(), in);
 				if(!in) throw std::runtime_error {
 					"Invalid element in option list " + this->get_main_name()
 				};
@@ -39,21 +39,27 @@ namespace stx {
 		}
 
 		virtual void mandatory() const override {
-			if(!this->set || this->array.empty()) throw std::runtime_error {
+			if(!this->opt_v) throw std::runtime_error {
 				this->get_main_name() + " is a mandatory option."
 			};
 		}
 
-		const std::vector<T> get() const {
-			return this->array;
+		const std::vector<T> value() const {
+			if(this->opt_v) return *opt_v;
+			throw std::runtime_error {
+				this->get_main_name() + " is a mandatory option."
+			};
 		}
 
-		bool is_set() const {
-			return this->set;
+		const std::vector<T> value_or(const std::vector<T> && t) const {
+			return opt_v.value_or(t);
+		}
+
+		operator bool() const {
+			return this->opt_v;
 		}
 	private:
-		bool set = false;
-		std::vector<T> array;
+		std::optional<std::vector<T>> opt_v;
 	};
 
 	using option_bool_list = basic_option_list<bool>;
