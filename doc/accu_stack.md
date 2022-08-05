@@ -31,3 +31,6 @@ Removes the top value from stack. Popping from an empty stack is UB.
 
 ### bool empty() const
 Return true if the stack is empty.
+
+### size_type size() const
+Return the count of elements on the stack.

@@ -23,6 +23,10 @@ namespace stx {
 			return data.empty();
 		}
 
+		typename Container::size_type size() const {
+			return data.size();
+		}
+
 	private:
 		T init; 
 		Container data;
