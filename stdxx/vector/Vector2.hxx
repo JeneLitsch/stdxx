@@ -124,6 +124,13 @@ namespace stx {
 	}
 
 	template<class Arithmetic, class FlavorL, class FlavorR>
+	constexpr auto operator/(
+		const stx::vector2<Arithmetic, FlavorL> & l,
+		const stx::vector2<Arithmetic, FlavorR> & r) {
+		return elementWiseOperator<std::divides>(l, r); 
+	}
+
+	template<class Arithmetic, class FlavorL, class FlavorR>
 	constexpr auto operator-(
 		const stx::vector2<Arithmetic, FlavorL> & l,
 		const stx::vector2<Arithmetic, FlavorR> & r) {

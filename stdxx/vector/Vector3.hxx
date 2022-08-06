@@ -14,6 +14,12 @@ namespace stx {
 		constexpr vector3()
 			:	x(0), y(0), z(0) {}
 
+		template<class Arithmetic2, class Flavor2>
+		explicit constexpr vector3(const vector3<Arithmetic2, Flavor2> & vector)
+			:	x(static_cast<Arithmetic>(vector.x)),
+				y(static_cast<Arithmetic>(vector.y)),
+				z(static_cast<Arithmetic>(vector.z)) {}
+
 		template<class VectorType>
 		constexpr VectorType to() const {
 			return VectorType{

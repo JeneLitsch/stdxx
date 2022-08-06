@@ -18,9 +18,9 @@ namespace stx {
 
 	template<class Arithmetic, class Flavor>
 	constexpr auto extend(
-		const vector3<Arithmetic, Flavor> & vector,
+		const vector2<Arithmetic, Flavor> & vector,
 		const Arithmetic & z) {
-		return Vector3<Arithmetic, Flavor>(vector.x, vector.y, z);
+		return vector3<Arithmetic, Flavor>(vector.x, vector.y, z);
 	}
 }
 
