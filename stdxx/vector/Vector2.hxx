@@ -164,6 +164,13 @@ namespace stx {
 
 	template<class Arithmetic, class Flavor>
 	constexpr auto operator/(
+		const Arithmetic & scalar,
+		const stx::vector2<Arithmetic, Flavor> & vec) {
+		return scalarOperator<std::divides>(vec, scalar);
+	}
+
+	template<class Arithmetic, class Flavor>
+	constexpr auto operator/(
 		const stx::vector2<Arithmetic, Flavor> & vec,
 		const Arithmetic & scalar) {
 		return scalarOperator<std::divides>(vec, scalar);
