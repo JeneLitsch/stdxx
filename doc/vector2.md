@@ -1,4 +1,4 @@
-# `stx::vector2<T, Flavor>`
+# stx::vector2<T, Flavor>
 
 ## Header
 stdxx/vector.hxx

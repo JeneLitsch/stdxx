@@ -1,4 +1,4 @@
-# `stx::accu_stack`
+# stx::accu_stack
 
 ## Header
 stdxx/accu_stack.hxx
