@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 namespace stx {
 	constexpr auto deref(auto & ptr_like) {
@@ -21,4 +22,19 @@ namespace stx {
 	constexpr auto deref_parameter(auto fx) {
 		return [fx] (auto & ptr) { return fx(*ptr); };
 	}
+
+
+	template<typename R, typename T>
+	using unary = std::function<R(T)>;
+
+	using runnable = std::function<void(void)>;
+
+	template<typename T>
+	using consumer = std::function<void(T)>;
+
+	template<typename T>
+	using provider = std::function<T(void)>;
+
+	template<typename ... T>
+	using predicate = std::function<bool(T...)>;
 }
