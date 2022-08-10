@@ -27,5 +27,6 @@ Run all functions on the queue. The functions get called in the order in which t
 
 <br>
 
-### push(std::function<void(void)>)
-Add a function to the end of the queue.
+### push(Fx fx)
+Adds a callable to the end of the queue.
+This function returns a future to the returns value of fx.
