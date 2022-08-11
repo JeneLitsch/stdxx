@@ -5,33 +5,22 @@
 #include <sstream>
 
 namespace stx {
-
-	enum class type {
-		FATAL, ERROR, WARNING, INFO, WRITE,
+	struct log_level {
+		std::string_view tag;
 	};
 
-	constexpr auto FATAL = type::FATAL;
-	constexpr auto ERROR = type::ERROR;
-	constexpr auto WARNING = type::WARNING;
-	constexpr auto INFO = type::INFO;
-	constexpr auto WRITE = type::WRITE;
-
-	inline std::string_view to_string(type type) {
-		switch (type) {
-			case type::FATAL:   return "[Fatal] ";   break;
-			case type::ERROR:   return "[Error] ";   break;
-			case type::WARNING: return "[Warning] "; break;
-			case type::INFO:    return "[Info] ";    break;
-			case type::WRITE:   return "";           break;
-		}
-		return "";
-	}
+	constexpr auto FATAL   = log_level { "[Fatal] " };
+	constexpr auto ERROR   = log_level { "[Error] " };
+	constexpr auto WARNING = log_level { "[Warning] " };
+	constexpr auto INFO    = log_level { "[Info] " };
+	constexpr auto WRITE   = log_level { "" };
 	
 	inline class logger {
+		template<typename Type>
 		class line {
 		public:
-			line(auto & outs, type type, unsigned indent) : outs(outs) { 
-				ss << std::string(indent, '\t') << to_string(type);
+			line(auto & outs, const Type & type, unsigned indent) : outs(outs) { 
+				ss << std::string(indent, '\t') << type.tag;
 			}
 			line(const line &) = delete;
 			line(line &&) = delete;
@@ -62,8 +51,9 @@ namespace stx {
 			outs.push_back(&out);
 		}
 
-		auto operator[](type type) {
-			return line(outs, type, indentation);
+		template<typename Type>
+		auto operator[](const Type & type) {
+			return line<Type>(outs, type, indentation);
 		}
 
 		void indent_in() {
