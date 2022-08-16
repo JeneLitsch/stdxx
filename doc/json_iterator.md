@@ -73,6 +73,11 @@ Returns the size of the stored array. Returns the 0 if the store value is not an
 
 <br>
 
+### std::vector&lt;std::string&gt; keys() const
+Return the keys of the json object. The result is empty if the node type is an empty object or not an object at all.
+
+<br>
+
 ---
 
 <br>

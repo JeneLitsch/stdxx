@@ -8,6 +8,8 @@ namespace stx::json {
 		inline static constexpr auto not_a_boolean = "Cannot extract boolean";
 		inline static constexpr auto not_a_number  = "Cannot extract number";
 		inline static constexpr auto not_a_string  = "Cannot extract string";
+		
+		using Dict = std::vector<std::pair<std::string, node>>;
 	public:
 
 		iterator(const node * node) : n(node) {}
@@ -84,7 +86,6 @@ namespace stx::json {
 			if(!n) {
 				return iterator(nullptr);
 			}
-			using Dict = std::vector<std::pair<std::string, node>>;
 			auto * dict = std::get_if<Dict>(&n->data);
 			if(dict) {
 				for(const auto & [key, value] : *dict) {
@@ -100,6 +101,17 @@ namespace stx::json {
 
 		iterator operator[](const std::string_view str) const {
 			return (*this)[std::string(str)];
+		}
+
+
+		std::vector<std::string> keys() const {
+			std::vector<std::string> key_vec;
+			if(auto * dict = std::get_if<Dict>(&n->data)) {
+				for(const auto & [key, value] : *dict) {
+					key_vec.push_back(key);
+				}
+			}
+			return key_vec;
 		}
 
 
