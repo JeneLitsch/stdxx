@@ -54,14 +54,26 @@ namespace stx {
 
 
 
+		T & operator*() {
+			return *this->t;
+		}
+
+
+
+		const T & operator*() const {
+			return *this->t;
+		}
+
+
+
 		T * operator->() {
-			return t;
+			return this->t;
 		}
 
 
 
 		const T * operator->() const {
-			return t;
+			return this->t;
 		}
 
 
