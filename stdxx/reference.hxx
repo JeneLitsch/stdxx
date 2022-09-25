@@ -8,6 +8,10 @@ namespace stx {
 	class reference {
 	public:
 		constexpr reference(T & ref) : ptr(&ref) {}
+		
+		template<class U>
+		constexpr reference(reference<U> & ref) : ptr(&*ref) {}
+
 		constexpr reference & operator=(T & ref) {
 			this->ptr = &ref;
 			return *this;
