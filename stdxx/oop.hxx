@@ -4,11 +4,13 @@ namespace stx {
 		non_copyable(const non_copyable &) = delete;
 		non_copyable & operator=(const non_copyable &) = delete;
 		non_copyable() = default;
+		virtual ~non_copyable() = default;
 	};
 
 	struct non_moveable {
 		non_moveable(non_moveable &&) = delete;
 		non_moveable & operator=(non_moveable &&) = delete;
 		non_moveable() = default;
+		virtual ~non_moveable() = default;
 	};
 }
