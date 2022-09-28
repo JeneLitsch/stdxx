@@ -1,4 +1,5 @@
 #pragma once
+
 namespace stx {
 	struct non_copyable {
 		non_copyable(const non_copyable &) = delete;
