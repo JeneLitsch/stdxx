@@ -4,3 +4,4 @@
 #include "json/print.hxx"
 #include "json/parse.hxx"
 #include "json/io.hxx"
+#include "json/loading_utils.hxx"
