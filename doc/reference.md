@@ -73,4 +73,4 @@ Member access via the arrow operator. This allows pointer-like usage.
 ### constexpr T & operator*()
 ### constexpr const T & operator*() const
 
-Pointer derefence operator. This makes stx::reference syntactically similar to a pointer. 
+Pointer dereference operator. This makes stx::reference syntactically similar to a pointer. 
