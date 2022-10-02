@@ -18,6 +18,17 @@ Alternative to std::reference_wrapper.
 
 <br>
 
+## Template parameters
+| Name | Info                     | Default |
+| ---- | ------------------------ | ------- |
+| T    | Type which is referenced | -       |
+
+<br>
+
+---
+
+<br>
+
 ## Member functions
 
 constexpr reference(T & ref) : ptr(&ref) {}
