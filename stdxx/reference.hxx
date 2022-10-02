@@ -8,6 +8,7 @@ namespace stx {
 	class reference {
 	public:
 		constexpr reference(T & ref) : ptr(&ref) {}
+		constexpr reference(T && ref) = delete;
 		
 		template<class U>
 		constexpr reference(reference<U> & ref) : ptr(&*ref) {}
