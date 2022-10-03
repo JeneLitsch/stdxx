@@ -1,4 +1,5 @@
 #include <optional>
+#include "reference/optref.hxx"
 
 namespace stx {
 	template<typename T>

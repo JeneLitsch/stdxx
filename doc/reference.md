@@ -31,14 +31,23 @@ Alternative to std::reference_wrapper.
 
 ## Member functions
 
-constexpr reference(T & ref) : ptr(&ref) {}
+### reference(T & ref) 
+
+Ctor that creates reference pointing to ref 
+
+- constexpr
 
 <br>
 
 
-### template&lt;class U&gt; constexpr reference(reference&lt;U&gt; & ref)
+### reference(reference&lt;U&gt; & ref)
+
+<br>
 
 Copy constructor for stx::reference
+
+- constexpr
+- template type U
 
 <br>
 
@@ -50,27 +59,35 @@ Copy constructor for stx::reference
 
 <br>
 
-### constexpr reference & operator=(T & ref)
+### reference & operator=(T & ref)
 
 Assignment operator
 
+- constexpr
+
 <br>
 
-### constexpr operator T&() 
-### constexpr operator const T &() const
+### operator T&() 
 
 This conversion operator allows the automatic conversion from stx::reference to a normal C++ reference, when e.g. passing to function
 
+- constexpr
+- const
+
 <br>
 
-### constexpr T * operator-&gt;()
-### constexpr const T * operator-&gt;() const
+### T * operator-&gt;()
 
 Member access via the arrow operator. This allows pointer-like usage. 
 
+- constexpr
+- const
+
 <br>
 
-### constexpr T & operator*()
-### constexpr const T & operator*() const
+### T & operator*()
 
 Pointer dereference operator. This makes stx::reference syntactically similar to a pointer. 
+
+- constexpr
+- const
