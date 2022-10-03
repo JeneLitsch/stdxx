@@ -1,8 +1,9 @@
 #pragma once
 #include <optional>
+#include <compare>
 
 namespace stx {
-	struct nullref_t {} nullref;
+	inline const struct nullref_t {} nullref;
 
 
 
@@ -79,7 +80,7 @@ namespace stx {
 
 		
 		inline friend bool operator==(const optref & l, const optref & r) {
-			return std::equal_to<void>{}(l.t, r.t);
+			return l.t == r.t;
 		} 
 
 
