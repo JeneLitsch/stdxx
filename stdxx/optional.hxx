@@ -1,5 +1,7 @@
+#pragma once
 #include <optional>
 #include "reference/optref.hxx"
+#include "optional/static_opt_cast.hxx"
 
 namespace stx {
 	template<typename T>
