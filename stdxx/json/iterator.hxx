@@ -51,12 +51,47 @@ namespace stx::json {
 		std::optional<double> number() const {
 			if(!n) return std::nullopt;
 			return ptr_to_opt(std::get_if<double>(&n->data));
-		}	
+		}
 
 		std::optional<std::string> string() const {
 			if(!n) return std::nullopt;
 			return ptr_to_opt(std::get_if<std::string>(&n->data));
 		}
+
+
+
+		std::optional<std::uint8_t> u8() const {
+			return static_opt_cast<std::uint8_t>(this->number());
+		}
+
+		std::optional<std::int8_t> i8() const {
+			return static_opt_cast<std::int8_t>(this->number());
+		}
+
+		std::optional<std::uint16_t> u16() const {
+			return static_opt_cast<std::uint16_t>(this->number());
+		}
+
+		std::optional<std::int16_t> i16() const {
+			return static_opt_cast<std::int16_t>(this->number());
+		}
+
+		std::optional<std::uint32_t> u32() const {
+			return static_opt_cast<std::uint32_t>(this->number());
+		}
+
+		std::optional<std::int32_t> i32() const {
+			return static_opt_cast<std::int32_t>(this->number());
+		}
+
+		std::optional<std::uint64_t> u64() const {
+			return static_opt_cast<std::uint64_t>(this->number());
+		}
+
+		std::optional<std::int64_t> i64() const {
+			return static_opt_cast<std::int64_t>(this->number());
+		}
+
 
 
 		std::size_t size() const {

@@ -76,7 +76,7 @@ Checks if the null type is stored.
 
 <br>
 
-### std::option&lt;bool&gt; boolean()
+### std::optional&lt;bool&gt; boolean()
 
 Returns the stored boolean. Returns std::nullopt if the type does not match.
 
@@ -84,7 +84,7 @@ Returns the stored boolean. Returns std::nullopt if the type does not match.
 
 <br>
 
-### std::option&lt;double&gt; number()
+### std::optional&lt;double&gt; number()
 
 Returns the stored number. Returns std::nullopt if the type does not match.
 
@@ -92,12 +92,76 @@ Returns the stored number. Returns std::nullopt if the type does not match.
 
 <br>
 
-### std::option&lt;std::string&gt; string()
+### std::optional&lt;std::string&gt; string()
 
 Returns the stored string. Returns std::nullopt if the type does not match.
 
 - const
 
+<br>
+
+### std::optional&lt;std::uint8_t&gt; u8()
+
+Returns number() as std::uint8_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::int8_t&gt; i8()
+
+Returns number() as std::int8_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::uint16_t&gt; u16()
+
+Returns number() as std::uint16_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::int16_t&gt; i16()
+
+Returns number() as std::int16_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::uint32_t&gt; u32()
+
+Returns number() as std::uint32_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::int32_t&gt; i32()
+
+Returns number() as std::int32_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::uint64_t&gt; u64()
+
+Returns number() as std::uint64_t.
+
+- const
+
+<br>
+
+### std::optional&lt;std::int64_t&gt; i64()
+
+Returns number() as std::int64_t.
+
+- const
+  
 <br>
 
 ### std::size_t size()
