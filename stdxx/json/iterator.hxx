@@ -12,16 +12,12 @@ namespace stx::json {
 		using Dict = std::vector<std::pair<std::string, node>>;
 	public:
 
+		iterator(std::nullptr_t) : n(nullptr) {}
+		iterator(std::nullopt_t) : n(nullptr) {}
 		iterator(const node * node) : n(node) {}
 		iterator(const node & node) : n(&node) {}
 		
-
-
-		operator bool() const {
-			return n;
-		}
-
-
+		// Member functions
 
 		bool force_boolean(const std::string & error_msg = not_a_boolean) const {
 			if(auto val = this->boolean()) return *val;
@@ -45,62 +41,30 @@ namespace stx::json {
 			return std::get_if<std::monostate>(&n->data);
 		}
 
+
+
 		std::optional<bool> boolean() const {
 			if(!n) return std::nullopt;
-			return as_optional(std::get_if<bool>(&n->data));
+			return ptr_to_opt(std::get_if<bool>(&n->data));
 		}
 
 		std::optional<double> number() const {
 			if(!n) return std::nullopt;
-			return as_optional(std::get_if<double>(&n->data));
+			return ptr_to_opt(std::get_if<double>(&n->data));
 		}	
 
 		std::optional<std::string> string() const {
 			if(!n) return std::nullopt;
-			return as_optional(std::get_if<std::string>(&n->data));
+			return ptr_to_opt(std::get_if<std::string>(&n->data));
 		}
 
 
-
-
-
-		iterator operator[](std::size_t i) const {
-			if(!n) {
-				return iterator(nullptr);
-			}
-			if(i >= this->size()) {
-				return iterator(nullptr);
-			}
+		std::size_t size() const {
+			if(!n) return 0;
 			if(auto arr = std::get_if<std::vector<node>>(&n->data)) {
-				auto * elem = &(*arr)[i];
-				return iterator(elem);
-			} 
-			else return nullptr;
-		}
-
-		iterator operator[](std::integral auto i) const {
-			return this->operator[](static_cast<std::size_t>(i));
-		}
-
-		iterator operator[](const std::string & str) const {
-			if(!n) {
-				return iterator(nullptr);
+				return arr->size();
 			}
-			auto * dict = std::get_if<Dict>(&n->data);
-			if(dict) {
-				for(const auto & [key, value] : *dict) {
-					if(key == str) return iterator(&value);
-				}
-			}
-			return iterator(nullptr);
-		}
-
-		iterator operator[](const char * str) const {
-			return (*this)[std::string(str)];
-		}
-
-		iterator operator[](const std::string_view str) const {
-			return (*this)[std::string(str)];
+			return 0;
 		}
 
 
@@ -115,18 +79,47 @@ namespace stx::json {
 		}
 
 
+		// Operators
 
-		std::size_t size() const {
-			if(!n) return 0;
-			if(auto arr = std::get_if<std::vector<node>>(&n->data)) {
-				return arr->size();
-			}
-			return 0;
+		operator bool() const {
+			return n;
 		}
+
+
+
+		iterator operator[](const std::integral auto index) const {
+			const auto i = static_cast<std::size_t>(index);
+			if(!n) {
+				return iterator(nullptr);
+			}
+			if(i >= this->size()) {
+				return iterator(nullptr);
+			}
+			if(auto arr = std::get_if<std::vector<node>>(&n->data)) {
+				auto * elem = &(*arr)[i];
+				return iterator(elem);
+			} 
+			else return nullptr;
+		}
+
+
+
+		iterator operator[](const stx::string_like auto str) const {
+			if(!n) {
+				return iterator(nullptr);
+			}
+			auto * dict = std::get_if<Dict>(&n->data);
+			if(dict) {
+				for(const auto & [key, value] : *dict) {
+					if(key == str) return iterator(&value);
+				}
+			}
+			return iterator(nullptr);
+		}
+
 
 	private:
 		const node * n;
-		inline static const std::vector<node> empty;
 	};
 
 

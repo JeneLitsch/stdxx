@@ -3,7 +3,7 @@
 
 namespace stx {
 	template<typename T>
-	constexpr std::optional<T> as_optional(const T * ptr) {
+	constexpr std::optional<T> ptr_to_opt(const T * ptr) {
 		if(ptr) return *ptr;
 		return std::nullopt;
 	}
