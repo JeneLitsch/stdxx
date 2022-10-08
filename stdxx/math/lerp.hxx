@@ -16,7 +16,7 @@ namespace stx {
 
 
 
-	auto lerp(const color_rgb auto & c1, const color_rgb auto & c2,	auto t) {
+	auto lerp(const color_rgb_no_alpha auto & c1, const color_rgb_no_alpha auto & c2,	auto t) {
 		const auto r = static_cast<std::uint8_t>(std::lerp(c1.r, c2.r, t));
 		const auto g = static_cast<std::uint8_t>(std::lerp(c1.g, c2.g, t));
 		const auto b = static_cast<std::uint8_t>(std::lerp(c1.b, c2.b, t));
