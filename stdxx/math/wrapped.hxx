@@ -63,7 +63,7 @@ namespace stx {
 
 	private:
 		constexpr T wrap(T t) const {
-			const T range = min_value - min_value + 1;
+			const T range = max_value - min_value + 1;
 			if(t < this->min_value) t += range * ((min_value - t) / range + 1);
 			return min_value + mod(t - min_value, range); 
 		}
