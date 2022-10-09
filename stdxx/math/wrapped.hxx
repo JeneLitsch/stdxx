@@ -9,7 +9,7 @@ namespace stx {
 	class wrapped {
 	public:
 		constexpr wrapped(T val = 0, T min = 0, T max = 0)
-		: val{val}, min{min}, max{max} {
+		: val{val}, min_value{min}, max_value{max} {
 			this->val = wrap(this->val);
 		}
 
@@ -49,15 +49,27 @@ namespace stx {
 			return old;
 		}
 
+
+
+		constexpr const T & min() const {
+			return this->min_value;
+		}
+
+
+		
+		constexpr const T & max() const {
+			return this->max_value;
+		}
+
 	private:
 		constexpr T wrap(T t) const {
-			const T range = max - min + 1;
-			if(t < this->min) t += range * ((min - t) / range + 1);
-			return min + mod(t - min, range); 
+			const T range = min_value - min_value + 1;
+			if(t < this->min_value) t += range * ((min_value - t) / range + 1);
+			return min_value + mod(t - min_value, range); 
 		}
 		T val;
-		T min;
-		T max;
+		T min_value;
+		T max_value;
 	};
 
 
