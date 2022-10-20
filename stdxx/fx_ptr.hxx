@@ -11,7 +11,7 @@ namespace stx {
 	public:
 		fx_ptr(Fx fx) : fx{fx} {}
 
-		Ret operator()(Args && ...args) {
+		Ret operator()(Args && ...args) const {
 			return fx(args...);
 		}
 	private:
