@@ -40,7 +40,7 @@ namespace stx {
 
 
 
-		constexpr operator bool() {
+		constexpr operator bool() const {
 			return this->t;
 		} 
 

@@ -69,7 +69,7 @@ constexpr auto elementWiseOperator(
 			Op<Arithmetic>()(l.z, r.z));
 	}
 	else {
-		return Vector3<Arithmetic, stx::vectorFlavor::DEFAULT>(
+		return stx::vector3<Arithmetic, stx::vectorFlavor::DEFAULT>(
 			Op<Arithmetic>()(l.x, r.x),
 			Op<Arithmetic>()(l.y, r.y),
 			Op<Arithmetic>()(l.z, r.z));
@@ -80,22 +80,29 @@ constexpr auto elementWiseOperator(
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator+(
 	const stx::vector3<Arithmetic, FlavorL> & l,
-	const stx::vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorR> & r) {
 	return elementWiseOperator<std::plus>(l, r);
 }
 
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator-(
 	const stx::vector3<Arithmetic, FlavorL> & l,
-	const stx::vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorR> & r) {
 	return elementWiseOperator<std::minus>(l, r);
 }
 
 template<class Arithmetic, class FlavorL, class FlavorR>
 constexpr auto operator*(
 	const stx::vector3<Arithmetic, FlavorL> & l,
-	const stx::vector3<Arithmetic, FlavorL> & r) {
+	const stx::vector3<Arithmetic, FlavorR> & r) {
 	return elementWiseOperator<std::multiplies>(l, r);
+}
+
+template<class Arithmetic, class FlavorL, class FlavorR>
+constexpr auto operator/(
+	const stx::vector3<Arithmetic, FlavorL> & l,
+	const stx::vector3<Arithmetic, FlavorR> & r) {
+	return elementWiseOperator<std::divides>(l, r);
 }
 
 
