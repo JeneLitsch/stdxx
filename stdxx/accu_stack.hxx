@@ -62,6 +62,6 @@ namespace stx {
 	private:
 		T init; 
 		Container data;
-		constexpr static Op op;
+		constexpr static Op op = {};
 	};
 }
