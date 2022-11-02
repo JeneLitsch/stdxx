@@ -30,7 +30,9 @@ namespace stx {
             
 			const auto l = std::min(a, b);
 			const auto h = std::max(a, b);
-            const auto t = static_cast<double>(x - l) / static_cast<double>(h - l);
+            const auto t 
+                = (static_cast<double>(x) - static_cast<double>(l))
+                / (static_cast<double>(h) - static_cast<double>(l));
 
             return a < b ? t : 1 - t;
         }
