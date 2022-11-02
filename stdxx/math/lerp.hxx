@@ -6,12 +6,13 @@
 namespace stx {
 	template<typename T>
 	concept default_lerpable = requires(T a, T b) {
-		a + 0.5 * (b - 0.5);
+		a + 0.5 * (b - a);
 	};
 
 
 	auto lerp(default_lerpable auto a, default_lerpable auto b, std::floating_point auto t) {
-		return a + t * (b - a);
+		using T = decltype(a + (b - a) * t);
+		return static_cast<decltype(a+b)>(static_cast<T>(a) + t * (static_cast<T>(b) - static_cast<T>(a)));
 	}
 
 
@@ -81,7 +82,8 @@ namespace stx {
 		return stx::lerp(
 			stx::lerp(nw, ne, tx),
 			stx::lerp(sw, se, tx),
-			ty);	
+			ty
+		);
 	}
 
 
