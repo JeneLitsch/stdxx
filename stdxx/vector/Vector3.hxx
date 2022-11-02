@@ -5,6 +5,7 @@ namespace stx {
 	template<class Arithmetic, class Flavor>
 	class vector3 {
 	public:
+		using value_type = Arithmetic;
 		constexpr vector3(Arithmetic x, Arithmetic y, Arithmetic z) noexcept
 			:	x(x), y(y), z(z) {}
 
@@ -157,4 +158,22 @@ std::ostream & operator<<(
 	const stx::vector3<Arithmetic, Flavor> vector) {
 	stream << "(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
 	return stream;
+}
+
+
+
+template<class Arithmetic, class Flavor>
+constexpr auto operator==(
+	const stx::vector3<Arithmetic, Flavor> & l,
+	const stx::vector3<Arithmetic, Flavor> & r) {
+	return l.x == r.x && l.y == r.y && l.z == r.z; 
+}
+
+
+
+template<class Arithmetic, class Flavor>
+constexpr auto operator!=(
+	const stx::vector3<Arithmetic, Flavor> & l,
+	const stx::vector3<Arithmetic, Flavor> & r) {
+	return !(l == r); 
 }
