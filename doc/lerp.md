@@ -36,18 +36,18 @@ Linear interpolation function. It works for more types than std::lerp.
 
 <br>
 
-## floating point
+## AB = floating point
 
 Normal lerp function.
 
-## signed integrals,
+## AB = signed integrals,
 
 Normal lerp function. The return value is truncated.
 
-## unsigned integrals
+## AB = unsigned integrals
 
 Normal lerp function. The function is safe to use if b &lt; a. The implementation contains protection against underflows. If the t is in [0,1] the return value is well defined.
 
-## stx::vector2 and stx::vector3
+## AB = stx::vector2, stx::vector3
 
 Elementwise wise lerp of x and y (and z).
