@@ -1,4 +1,4 @@
-# stx::lerp(a, b, t)
+# stx::lerp
 
 ## Header
 stdxx/math.hxx
@@ -11,43 +11,16 @@ stdxx/math.hxx
 
 ## Description
 
-Linear interpolation function. It works for more types than std::lerp.
-- signed and unsigned integrals
-- floating point types
-- stx::vector2<...>
-- stx::vector3<...>
+Lerp function(s) compatible with different types
 
-<br>
+|     |           |                                      |
+| --- | --------- | ------------------------------------ |
+| 1   | Integral  | lerp(Integral, Integral, Floating)   |
+| 2   | UIntegral | lerp(UIntegral, UIntegral, Floating) |
+| 3   | Floating  | lerp(Floating, Floating, Floating)   |
+| 4   | Vec2      | lerp(Vec2, Vec2, Floating)           |
+| 5   | Vec3      | lerp(Vec3, Vec3, Floating)           |
 
----
+1 - 3) Simple numeric linear interpolation
 
-<br>
-
-## Template parameters
-
-| Name | Info                                       | Default |
-| ---- | ------------------------------------------ | ------- |
-| AB   | Return type and type lower and upper value | -       |
-| T    | Type of the the position t.                | -       |
-
-<br>
-
----
-
-<br>
-
-## AB = floating point
-
-Normal lerp function.
-
-## AB = signed integrals,
-
-Normal lerp function. The return value is truncated.
-
-## AB = unsigned integrals
-
-Normal lerp function. The function is safe to use if b &lt; a. The implementation contains protection against underflows. If the t is in [0,1] the return value is well defined.
-
-## AB = stx::vector2, stx::vector3
-
-Elementwise wise lerp of x and y (and z).
+4 - 5) Elementwise linear interpolation. A lerp is performed along each axis.

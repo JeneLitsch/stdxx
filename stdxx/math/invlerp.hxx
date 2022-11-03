@@ -2,46 +2,31 @@
 #include <concepts>
 
 namespace stx {
-    namespace internal {
-        auto invlerp_impl(
-            std::floating_point auto a,
-            std::floating_point auto b,
-            std::floating_point auto x) {
-            
-            return (x - a) / (b - a);
-        }
+	template<typename F>
+	requires std::floating_point<F>
+	double invlerp(F a, F b, F x) {
+		return (x - a) / (b - a);
+	}
 
 
 
-        auto invlerp_impl(
-            std::signed_integral auto a,
-            std::signed_integral auto b,
-            std::signed_integral auto x) {
-            
-            return static_cast<double>(x - a) / static_cast<double>(b - a);
-        }
+	template<typename I>
+	requires std::signed_integral<I>
+	double invlerp(I a, I b, I x) {
+		return static_cast<double>(x - a) / static_cast<double>(b - a);
+	}
 
 
 
-        auto invlerp_impl(
-            std::unsigned_integral auto a,
-            std::unsigned_integral auto b,
-            std::unsigned_integral auto x) {
-            
-			const auto l = std::min(a, b);
-			const auto h = std::max(a, b);
-            const auto t 
-                = (static_cast<double>(x) - static_cast<double>(l))
-                / (static_cast<double>(h) - static_cast<double>(l));
+	template<typename U>
+	requires std::unsigned_integral<U>
+	auto invlerp(U a, U b, U x) {
+		const auto l = std::min(a, b);
+		const auto h = std::max(a, b);
+		const auto t 
+			= (static_cast<double>(x) - static_cast<double>(l))
+			/ (static_cast<double>(h) - static_cast<double>(l));
 
-            return a < b ? t : 1 - t;
-        }
-    }
-    
-
-
-    template<typename T>
-    double invlerp(const T & a, const T & b, const T & x) {
-        return static_cast<double>(internal::invlerp_impl(a,b,x));
-    }
+		return a < b ? t : 1 - t;
+	}
 }

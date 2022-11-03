@@ -1,4 +1,4 @@
-# stx::invlerp(T a, T b, T x)
+# stx::invlerp
 
 ## Header
 stdxx/math.hxx
@@ -11,36 +11,12 @@ stdxx/math.hxx
 
 ## Description
 
-Inverse lerp function. Returns the normalized value of x in range [a, b].
-- signed and unsigned integrals
-- floating point types
+Inverse lerp function(s) compatible with different types.
 
-<br>
+|     |        |                                      |
+| --- | ------ | ------------------------------------ |
+| 1   | double | invlerp(Integral, Integral, Integral)   |
+| 2   | double | invlerp(UIntegral, UIntegral, UIntegral) |
+| 3   | double | invlerp(Floating, Floating, Floating)   |
 
----
-
-<br>
-
-## Template parameters
-
-| Name | Info                                       | Default |
-| ---- | ------------------------------------------ | ------- |
-| T   | Return type and type lower and upper value | -       |
-
-<br>
-
----
-
-<br>
-
-## T = floating point
-
-Normal inverse lerp function.
-
-## T = signed integrals,
-
-Normal inverse lerp function.
-
-## T = unsigned integrals
-
-Normal inverse lerp function.
+1 - 3) Inverse lerp function for numeric types.
