@@ -1,5 +1,5 @@
 #pragma once
-#include "vector.hxx"
+#include "Vector2.hxx"
 
 namespace stx {
 	template<typename Arithmetic>
