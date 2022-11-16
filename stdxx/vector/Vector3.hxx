@@ -1,59 +1,9 @@
 #pragma once
-#include "VectorFlavor.hxx"
+#include "VectorN.hxx"
 
 namespace stx {
-	template<class Arithmetic, class Flavor>
-	class vector3 {
-	public:
-		using value_type = Arithmetic;
-		constexpr vector3(Arithmetic x, Arithmetic y, Arithmetic z) noexcept
-			:	x(x), y(y), z(z) {}
-
-		constexpr vector3(Arithmetic xyz) noexcept
-			:	x(xyz), y(xyz), z(xyz) {}
-
-		constexpr vector3()
-			:	x(0), y(0), z(0) {}
-
-		template<class Arithmetic2, class Flavor2>
-		explicit constexpr vector3(const vector3<Arithmetic2, Flavor2> & vector)
-			:	x(static_cast<Arithmetic>(vector.x)),
-				y(static_cast<Arithmetic>(vector.y)),
-				z(static_cast<Arithmetic>(vector.z)) {}
-
-		template<class VectorType>
-		constexpr VectorType to() const {
-			return VectorType{
-				static_cast<decltype(VectorType::x)>(this->x),
-				static_cast<decltype(VectorType::y)>(this->y),
-				static_cast<decltype(VectorType::z)>(this->z)};
-		}
-
-
-
-		Arithmetic & operator[](std::size_t i) {
-			switch (i) {
-			case 0: return x;
-			case 1: return y;
-			case 2: return z;
-			default: throw std::out_of_range{"vector2 index out of range"};
-			}
-		}
-
-		const Arithmetic & operator[](std::size_t i) const {
-			switch (i) {
-			case 0: return x;
-			case 1: return y;
-			case 2: return z;
-			default: throw std::out_of_range{"vector2 index out of range"};
-			}
-		}
-
-
-		Arithmetic x;
-		Arithmetic y;
-		Arithmetic z;
-	};
+	template<typename T, typename Flavor>
+	using vector3 = vectorN<T, 3, Flavor>;
 
 	using vector3f = vector3<float, 			vectorFlavor::DEFAULT>; 
 	using vector3d = vector3<double,			vectorFlavor::DEFAULT>; 

@@ -1,79 +1,13 @@
 #pragma once
 #include <ostream>
-#include "VectorFlavor.hxx"
-#include "../concepts.hxx"
-#include "../strong.hxx"
+#include "VectorN.hxx"
+
 
 namespace stx {
-	template<typename T>
-	using radians_t = strong<T, class RADIANS>;
 
-	template<class Arithmetic, class Flavor = vectorFlavor::DEFAULT>
-	class vector2 {
-	public:
-		static constexpr vector2 from(const vector_2 auto & vec) {
-			return vector2(
-				static_cast<Arithmetic>(vec.x),
-				static_cast<Arithmetic>(vec.y));
-		}
 
-		static constexpr vector2 from_angle(const radians_t<Arithmetic> angle) {
-			return vector2(
-				std::cos(stx::collapse(angle)),
-				std::sin(stx::collapse(angle)));
-		}
-
-		constexpr vector2(const vector2<Arithmetic, Flavor> & vector)
-			:	x(vector.x),
-				y(vector.y) {}
-
-		template<class Arithmetic2, class Flavor2>
-		explicit constexpr vector2(const vector2<Arithmetic2, Flavor2> & vector)
-			:	x(static_cast<Arithmetic>(vector.x)),
-				y(static_cast<Arithmetic>(vector.y)) {}
-
-		constexpr vector2() 
-			:	x(0), y(0) {}
-		
-		constexpr vector2(const Arithmetic x, const Arithmetic y) noexcept
-			:	x(x), y(y) {}
-		
-		constexpr vector2(const Arithmetic xy)
-			:	x(xy), y(xy) {}
-
-		template<class VectorType>
-		constexpr VectorType to() const {
-			return VectorType(
-				static_cast<decltype(VectorType::x)>(this->x),
-				static_cast<decltype(VectorType::y)>(this->y));
-		}
-
-		virtual constexpr ~vector2() = default;
-
-		constexpr vector2 & operator=(const vector2&) = default;
-		constexpr vector2 & operator=(vector2 &&) = default;
-
-		Arithmetic & operator[](std::size_t i) {
-			switch (i) {
-			case 0: return x;
-			case 1: return y;
-			default: throw std::out_of_range{"vector2 index out of range"};
-			}
-		}
-
-		const Arithmetic & operator[](std::size_t i) const {
-			switch (i) {
-			case 0: return x;
-			case 1: return y;
-			default: throw std::out_of_range{"vector2 index out of range"};
-			}
-		}
-
-		Arithmetic x;
-		Arithmetic y;
-	};
-
-	
+	template<typename T, typename Flavor = vectorFlavor::DEFAULT>
+	using vector2 = vectorN<T, 2, Flavor>;	
 
 	// Typedefs
 	using vector2f  = vector2<float>; 
