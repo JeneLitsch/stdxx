@@ -55,8 +55,10 @@ namespace stx {
 		}
 
 		constexpr vectorN(const vectorN & vector)
-			:	x(vector.x),
-				y(vector.y) {}
+		: x(vector.x), y(vector.y) {}
+
+		constexpr vectorN(const std::array<Arithmetic, 2> & array)
+		: x{array[0]}, y{array[1]} {}
 
 		template<class Arithmetic2, class Flavor2>
 		explicit constexpr vectorN(const vectorN<Arithmetic2, 2, Flavor2> & vector)
@@ -65,6 +67,8 @@ namespace stx {
 
 		constexpr vectorN() 
 			:	x(0), y(0) {}
+
+
 		
 		constexpr vectorN(const Arithmetic x, const Arithmetic y) noexcept
 			:	x(x), y(y) {}
@@ -110,13 +114,16 @@ namespace stx {
 	public:
 		using value_type = Arithmetic;
 		constexpr vectorN(Arithmetic x, Arithmetic y, Arithmetic z) noexcept
-			:	x(x), y(y), z(z) {}
+		: x(x), y(y), z(z) {}
+
+		constexpr vectorN(const std::array<Arithmetic, 3> & array)
+		: x{array[0]}, y{array[1]}, z{array[2]} {}
 
 		constexpr vectorN(Arithmetic xyz) noexcept
-			:	x(xyz), y(xyz), z(xyz) {}
+		: x(xyz), y(xyz), z(xyz) {}
 
 		constexpr vectorN()
-			:	x(0), y(0), z(0) {}
+		: x(0), y(0), z(0) {}
 
 		template<class Arithmetic2, class Flavor2>
 		explicit constexpr vectorN(const vectorN<Arithmetic2, 3, Flavor2> & vector)
