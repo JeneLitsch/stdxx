@@ -53,6 +53,22 @@ namespace stx {
 		constexpr vector2 & operator=(const vector2&) = default;
 		constexpr vector2 & operator=(vector2 &&) = default;
 
+		Arithmetic & operator[](std::size_t i) {
+			switch (i) {
+			case 0: return x;
+			case 1: return y;
+			default: throw std::out_of_range{"vector2 index out of range"};
+			}
+		}
+
+		const Arithmetic & operator[](std::size_t i) const {
+			switch (i) {
+			case 0: return x;
+			case 1: return y;
+			default: throw std::out_of_range{"vector2 index out of range"};
+			}
+		}
+
 		Arithmetic x;
 		Arithmetic y;
 	};
