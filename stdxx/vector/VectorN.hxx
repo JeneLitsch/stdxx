@@ -229,7 +229,7 @@ namespace stx {
 	constexpr vectorN<T, N, Flavor> scalar_operation(
 		const vectorN<T, N, Flavor> & v,
 		const T & scalar) {
-		vectorN<T, N> vec;
+		vectorN<T, N, Flavor> vec;
 		for(std::size_t i = 0; i < N; ++i) {
 			vec[i] = Op{}(v[i], scalar);
 		}
