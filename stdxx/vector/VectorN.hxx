@@ -88,7 +88,7 @@ namespace stx {
 		constexpr vectorN & operator=(const vectorN&) = default;
 		constexpr vectorN & operator=(vectorN &&) = default;
 
-		Arithmetic & operator[](std::size_t i) {
+		constexpr Arithmetic & operator[](std::size_t i) {
 			switch (i) {
 			case 0: return x;
 			case 1: return y;
@@ -96,7 +96,7 @@ namespace stx {
 			}
 		}
 
-		const Arithmetic & operator[](std::size_t i) const {
+		constexpr const Arithmetic & operator[](std::size_t i) const {
 			switch (i) {
 			case 0: return x;
 			case 1: return y;
@@ -141,7 +141,7 @@ namespace stx {
 
 
 
-		Arithmetic & operator[](std::size_t i) {
+		constexpr Arithmetic & operator[](std::size_t i) {
 			switch (i) {
 			case 0: return x;
 			case 1: return y;
@@ -150,7 +150,7 @@ namespace stx {
 			}
 		}
 
-		const Arithmetic & operator[](std::size_t i) const {
+		constexpr const Arithmetic & operator[](std::size_t i) const {
 			switch (i) {
 			case 0: return x;
 			case 1: return y;
