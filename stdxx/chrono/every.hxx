@@ -3,9 +3,9 @@
 namespace stx::chrono {
 	// Time incrementer
 	// Returns true and reset if duration has passed
-	class wait {
+	class every {
 	public:
-		wait(double duration) {
+		every(double duration) {
 			this->duration = duration;
 			this->time = this->duration;
 		}

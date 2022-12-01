@@ -1,63 +1,13 @@
 #pragma once
 #include <ostream>
-#include "VectorFlavor.hxx"
-#include "../concepts.hxx"
-#include "../strong.hxx"
+#include "VectorN.hxx"
+
 
 namespace stx {
-	template<typename T>
-	using radians_t = strong<T, class RADIANS>;
 
-	template<class Arithmetic, class Flavor = vectorFlavor::DEFAULT>
-	class vector2 {
-	public:
-		static constexpr vector2 from(const vector_2 auto & vec) {
-			return vector2(
-				static_cast<Arithmetic>(vec.x),
-				static_cast<Arithmetic>(vec.y));
-		}
 
-		static constexpr vector2 from_angle(const radians_t<Arithmetic> angle) {
-			return vector2(
-				std::cos(stx::collapse(angle)),
-				std::sin(stx::collapse(angle)));
-		}
-
-		constexpr vector2(const vector2<Arithmetic, Flavor> & vector)
-			:	x(vector.x),
-				y(vector.y) {}
-
-		template<class Arithmetic2, class Flavor2>
-		explicit constexpr vector2(const vector2<Arithmetic2, Flavor2> & vector)
-			:	x(static_cast<Arithmetic>(vector.x)),
-				y(static_cast<Arithmetic>(vector.y)) {}
-
-		constexpr vector2() 
-			:	x(0), y(0) {}
-		
-		constexpr vector2(const Arithmetic x, const Arithmetic y) noexcept
-			:	x(x), y(y) {}
-		
-		constexpr vector2(const Arithmetic xy)
-			:	x(xy), y(xy) {}
-
-		template<class VectorType>
-		constexpr VectorType to() const {
-			return VectorType(
-				static_cast<decltype(VectorType::x)>(this->x),
-				static_cast<decltype(VectorType::y)>(this->y));
-		}
-
-		virtual constexpr ~vector2() = default;
-
-		constexpr vector2 & operator=(const vector2&) = default;
-		constexpr vector2 & operator=(vector2 &&) = default;
-
-		Arithmetic x;
-		Arithmetic y;
-	};
-
-	
+	template<typename T, typename Flavor = vectorFlavor::DEFAULT>
+	using vector2 = vectorN<T, 2, Flavor>;	
 
 	// Typedefs
 	using vector2f  = vector2<float>; 
@@ -88,95 +38,6 @@ namespace stx {
 
 
 
-	// Element-wise binary operators
-	template<template<class> class Op, class Arithmetic, class FlavorL, class FlavorR>
-	constexpr auto elementWiseOperator(
-		const stx::vector2<Arithmetic, FlavorL> & l,
-		const stx::vector2<Arithmetic, FlavorR> & r) {
-
-		// Compile time evaluation of return Flavor
-		// Return specified flavor if both are the same
-		if constexpr (std::same_as<FlavorL, FlavorR>) {
-			return stx::vector2<Arithmetic, FlavorL>(
-				Op<Arithmetic>()(l.x, r.x),
-				Op<Arithmetic>()(l.y, r.y));
-		}
-		// Return default flavor if l and r Flavor do not match
-		else {
-			return stx::vector2<Arithmetic, stx::vectorFlavor::DEFAULT>(
-				Op<Arithmetic>()(l.x, r.x),
-				Op<Arithmetic>()(l.y, r.y));
-		}
-	}
-
-	template<class Arithmetic, class FlavorL, class FlavorR>
-	constexpr auto operator+(
-		const stx::vector2<Arithmetic, FlavorL> & l,
-		const stx::vector2<Arithmetic, FlavorR> & r) {
-		return elementWiseOperator<std::plus>(l, r); 
-	}
-
-	template<class Arithmetic, class FlavorL, class FlavorR>
-	constexpr auto operator*(
-		const stx::vector2<Arithmetic, FlavorL> & l,
-		const stx::vector2<Arithmetic, FlavorR> & r) {
-		return elementWiseOperator<std::multiplies>(l, r); 
-	}
-
-	template<class Arithmetic, class FlavorL, class FlavorR>
-	constexpr auto operator/(
-		const stx::vector2<Arithmetic, FlavorL> & l,
-		const stx::vector2<Arithmetic, FlavorR> & r) {
-		return elementWiseOperator<std::divides>(l, r); 
-	}
-
-	template<class Arithmetic, class FlavorL, class FlavorR>
-	constexpr auto operator-(
-		const stx::vector2<Arithmetic, FlavorL> & l,
-		const stx::vector2<Arithmetic, FlavorR> & r) {
-		return elementWiseOperator<std::minus>(l, r); 
-	}
-
-
-	// Scalar operators
-	template<template<class> class Op, class Arithmetic, class Flavor>
-	constexpr auto scalarOperator(
-		const stx::vector2<Arithmetic, Flavor> & vec,
-		const Arithmetic & scalar) {
-		return stx::vector2<Arithmetic, Flavor>(
-			Op<Arithmetic>()(vec.x, scalar),
-			Op<Arithmetic>()(vec.y, scalar));
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator*(
-		const Arithmetic & scalar,
-		const stx::vector2<Arithmetic, Flavor> & vec) {
-		return scalarOperator<std::multiplies>(vec, scalar);
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator*(
-		const stx::vector2<Arithmetic, Flavor> & vec,
-		const Arithmetic & scalar) {
-		return scalarOperator<std::multiplies>(vec, scalar);
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator/(
-		const Arithmetic & scalar,
-		const stx::vector2<Arithmetic, Flavor> & vec) {
-		return scalarOperator<std::divides>(vec, scalar);
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator/(
-		const stx::vector2<Arithmetic, Flavor> & vec,
-		const Arithmetic & scalar) {
-		return scalarOperator<std::divides>(vec, scalar);
-	}
-
-
 	// Unary
 	template<class Arithmetic, class Flavor>
 	constexpr auto operator-(
@@ -184,28 +45,5 @@ namespace stx {
 		return stx::vector2<Arithmetic, Flavor>(
 			-vec.x,
 			-vec.y);
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator==(
-		const stx::vector2<Arithmetic, Flavor> & l,
-		const stx::vector2<Arithmetic, Flavor> & r) {
-		return l.x == r.x && l.y == r.y; 
-	}
-
-	template<class Arithmetic, class Flavor>
-	constexpr auto operator!=(
-		const stx::vector2<Arithmetic, Flavor> & l,
-		const stx::vector2<Arithmetic, Flavor> & r) {
-		return !(l == r); 
-	}
-
-	// Output
-	template<class Arithmetic, class Flavor>
-	std::ostream & operator<<(
-		std::ostream & stream,
-		const stx::vector2<Arithmetic, Flavor> vector) {
-		stream << "(" << vector.x << ", " << vector.y << ")";
-		return stream;
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <set>
 #include "iterator.hxx"
 
 namespace stx::json {
@@ -8,6 +9,16 @@ namespace stx::json {
 		std::vector<decltype(fx(json))> vec;
 		for(const auto elem : stx::json::to_array(json)) {
 			vec.push_back(fx(elem));
+		}
+		return vec;
+	}
+
+
+
+	auto set_of(auto fx, const stx::json::iterator & json) {
+		std::set<decltype(fx(json))> vec;
+		for(const auto elem : stx::json::to_array(json)) {
+			vec.insert(fx(elem));
 		}
 		return vec;
 	}

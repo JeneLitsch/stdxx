@@ -4,14 +4,47 @@
 #include "../concepts.hxx"
 
 namespace stx {
-	template<typename T>
-	concept default_lerpable = requires(T a, T b) {
-		a + 0.5 * (b - 0.5);
-	};
+	template<std::signed_integral I, std::floating_point T>
+	I lerp(I a, I b, T t) {
+		using X = std::common_type_t<I, T>;
+		return static_cast<I>(static_cast<X>(a) + t * static_cast<X>(b - a));
+	}
 
 
-	auto lerp(default_lerpable auto a, default_lerpable auto b, std::floating_point auto t) {
-		return a + t * (b - a);
+	template<std::unsigned_integral U, std::floating_point T>
+	U lerp(U a, U b, T t) {		
+		using X = std::common_type_t<U, T>;
+		const auto l = static_cast<X>(std::min(a, b));
+		const auto h = static_cast<X>(std::max(a, b));
+		const auto x = static_cast<X>(a < b ? t : 1-t);
+		return static_cast<U>(l + x * (h - l));
+	}
+
+
+
+	template<std::floating_point F, std::floating_point T>
+	F lerp(F a, F b, T t) {
+		using X = std::common_type_t<F, T>;
+		return static_cast<F>(static_cast<X>(a) + t * static_cast<X>(b - a));
+	}
+
+
+
+	template<vector_2 Vec2, std::floating_point T>
+	Vec2 lerp(const Vec2 & a, const Vec2 & b, T t) {
+		const auto x = stx::lerp(a.x, b.x, t);
+		const auto y = stx::lerp(a.y, b.y, t);
+		return Vec2 {x, y};
+	}
+
+
+
+	template<vector_3 Vec3 , std::floating_point T>
+	Vec3 lerp(const Vec3 & a, const Vec3 & b, T t) {
+		const auto x = stx::lerp(a.x, b.x, t);
+		const auto y = stx::lerp(a.y, b.y, t);
+		const auto z = stx::lerp(a.z, b.z, t);
+		return Vec3 {x, y, z};
 	}
 
 
@@ -35,54 +68,15 @@ namespace stx {
 
 
 
-	auto lerp(const vector_2 auto & v1, const vector_2 auto & v2, auto t) {
-		const auto x = lerp(v1.x, v2.x, t);
-		const auto y = lerp(v1.y, v2.y, t);
-		return decltype(v1) {x, y};
-	}
-
-
-
-	auto lerp(const vector_3 auto & v1, const vector_3 auto & v2, auto t) {
-		const auto x = lerp(v1.x, v2.x, t);
-		const auto y = lerp(v1.y, v2.y, t);
-		const auto z = lerp(v1.z, v2.z, t);
-		return decltype(v1) {x, y, z};
-	}
-
-
-
-	auto lerp(
-		std::input_iterator auto begin,
-		std::input_iterator auto end,
-		std::floating_point auto t) {
-		
-		using R = std::remove_reference_t<decltype(*begin)>;
-
-		auto size = std::distance(begin, end);	
-		
-		if(t < 0) {
-			return static_cast<R>(*begin);
-		}
-		if(t >= static_cast<decltype(t)>(size)) {
-			return static_cast<R>(*(end - 1));
-		} 
-		auto prev = begin + static_cast<unsigned>(std::floor(t));
-		auto next = begin + static_cast<unsigned>(std::ceil(t));
-		auto t_ = std::fmod(t, 1);
-		auto result = stx::lerp(*prev, *next, t_);
-		return static_cast<R>(result);
-	}
-
-
-
-	template<std::floating_point F, typename T>
+	template<typename T, std::floating_point F>
 	auto bi_lerp(T nw, T ne, T sw, T se, F tx, F ty) {
 		return stx::lerp(
 			stx::lerp(nw, ne, tx),
 			stx::lerp(sw, se, tx),
-			ty);	
+			ty
+		);
 	}
+
 
 
 	template<std::floating_point F = float>

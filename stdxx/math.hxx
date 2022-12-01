@@ -1,9 +1,12 @@
 #pragma once
 #include "vector.hxx"
 #include "math/lerp.hxx"
+#include "math/invlerp.hxx"
+#include "math/remap.hxx"
 #include "math/clamp.hxx"
 #include "math/mod.hxx"
 #include "math/wrapped.hxx"
+#include "math/gradient.hxx"
 
 namespace stx {
 	constexpr auto fast_sig(auto x) {
