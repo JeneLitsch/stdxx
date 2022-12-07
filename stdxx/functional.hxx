@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "fx_ptr.hxx"
+#include "functional/fx_ptr.hxx"
 
 namespace stx {
 	constexpr auto deref(auto & ptr_like) {
