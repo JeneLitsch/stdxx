@@ -1,6 +1,7 @@
 #pragma once
 #include <optional>
 #include <compare>
+#include "reference.hxx"
 
 namespace stx {
 	inline const struct nullref_t {} nullref;
@@ -36,6 +37,7 @@ namespace stx {
 		
 		
 
+		// Block temporary objects
 		constexpr optref(T && t) = delete;
 
 
@@ -77,7 +79,6 @@ namespace stx {
 		}
 
 
-
 		
 		inline friend bool operator==(const optref & l, const optref & r) {
 			return l.t == r.t;
@@ -96,4 +97,23 @@ namespace stx {
 	private:
 		T * t = nullptr;
 	};
+
+
+
+	template<typename T>
+	optref<T> to_optref(T & t) {
+		return optref<T>{t};
+	}
+
+
+
+	template<typename T>
+	optref<T> to_optref(T && t) = delete;
+
+
+
+	template<typename T>
+	optref<T> to_optref(T * t) {
+		return t ? optref<T>{*t} : nullref;
+	}
 }

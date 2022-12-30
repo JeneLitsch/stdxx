@@ -36,33 +36,33 @@ namespace stx {
 	};
 
 	template<typename T>
-	reference<T> ref(T & ref) {
+	reference<T> to_ref(T & ref) {
 		return reference<T>(ref);
 	}
 
 	template<typename T>
-	reference<const T> cref(const T & ref) {
+	reference<const T> to_cref(const T & ref) {
 		return reference<const T>(ref);
 	}
 
 	template<typename T>
-	reference<T> ref(std::unique_ptr<T> & ref) {
+	reference<T> to_ref(std::unique_ptr<T> & ref) {
 		return reference<T>(*ref);
 	}
 
 	template<typename T>
-	reference<const T> cref(std::unique_ptr<const T> & ref) {
+	reference<const T> to_cref(std::unique_ptr<const T> & ref) {
 		return reference<const T>(*ref);
 	}
 
-	auto ref(auto begin, auto end, auto insert) {
+	auto to_ref(auto begin, auto end, auto insert) {
 		while (begin != end) {
         	*insert++ = ref(*begin++);
     	}
     	return insert;
 	}
 
-	auto cref(auto begin, auto end, auto insert) {
+	auto to_cref(auto begin, auto end, auto insert) {
 		while (begin != end) {
         	*insert++ = cref(*begin++);
     	}
