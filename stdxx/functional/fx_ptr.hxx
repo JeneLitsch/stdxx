@@ -11,8 +11,8 @@ namespace stx {
 	public:
 		fx_ptr(Fx fx) : fx{fx} {}
 
-		Ret operator()(Args && ...args) const {
-			return fx(args...);
+		Ret operator()(Args ...args) const {
+			return fx(std::forward(args)...);
 		}
 	private:
 		Fx fx;
