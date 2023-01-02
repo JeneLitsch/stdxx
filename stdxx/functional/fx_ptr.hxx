@@ -12,7 +12,7 @@ namespace stx {
 		fx_ptr(Fx fx) : fx{fx} {}
 
 		Ret operator()(Args ...args) const {
-			return fx(std::forward(args)...);
+			return fx(std::forward<Args>(args)...);
 		}
 	private:
 		Fx fx;
