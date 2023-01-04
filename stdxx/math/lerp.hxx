@@ -71,6 +71,13 @@ namespace stx {
 
 
 
+	template<typename In, std::floating_point T>
+	auto lerp(const In & a, const In & b, T t, auto ease) {
+		return stx::lerp(a, b, ease(t));
+	}
+
+
+
 	template<typename T, std::floating_point F>
 	auto bi_lerp(T nw, T ne, T sw, T se, F tx, F ty) {
 		return stx::lerp(
