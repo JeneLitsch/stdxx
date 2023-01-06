@@ -51,7 +51,7 @@ namespace stx {
 			};
 		}
 
-		const std::vector<T> value_or(const std::vector<T> && t) const {
+		const std::vector<T> value_or(const std::vector<T> & t) const {
 			return opt_v.value_or(t);
 		}
 
