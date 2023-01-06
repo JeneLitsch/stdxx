@@ -14,6 +14,7 @@ constexpr inline std::array<T, SIZE_L + SIZE_R> operator+(
 }
 
 
+
 template<typename T, std::size_t SIZE>
 constexpr inline std::array<T, SIZE + 1> operator+(
 	const std::array<T, SIZE> & l,
@@ -23,6 +24,7 @@ constexpr inline std::array<T, SIZE + 1> operator+(
 	arr.back() = r;
 	return arr;
 }
+
 
 
 template<typename T, std::size_t SIZE>
@@ -35,6 +37,8 @@ inline std::vector<T> & operator+=(
 	return vec;
 }
 
+
+
 template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
@@ -44,6 +48,8 @@ inline std::vector<T> & operator+=(
 	}
 	return vec;
 }
+
+
 
 template<typename T>
 inline std::vector<T> & operator+=(
@@ -55,6 +61,8 @@ inline std::vector<T> & operator+=(
 	return vec;
 }
 
+
+
 template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
@@ -62,6 +70,21 @@ inline std::vector<T> & operator+=(
 	vec.push_back(t);
 	return vec;
 }
+
+
+
+template<class T>
+std::vector<T> operator+(
+	const std::vector<T> & l,
+	const std::vector<T> & r) {
+
+	std::vector<T> vec;
+	vec.reserve(l.size() + r.size());
+	vec.insert(std::end(vec), l.begin(), l.end());
+	vec.insert(std::end(vec), r.begin(), r.end());
+	return vec;
+}
+
 
 namespace stx {
 	template<typename T>
