@@ -70,4 +70,17 @@ namespace stx {
 			vec.push_back(elem);
 		}
 	}
+
+
+	template<typename Element>
+	std::vector<Element> repeat(
+		const std::vector<Element> & arr,
+		const std::integral auto count) {
+		
+		std::vector<Element>  output;
+		for(std::int64_t i = 0; i < count; ++i) {
+			append(output, arr);
+		}
+		return output;
+	}
 }
