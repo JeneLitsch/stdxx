@@ -2,6 +2,7 @@
 #include <functional>
 #include "functional/fx_ptr.hxx"
 #include "functional/map.hxx"
+#include "functional/paired.hxx"
 
 namespace stx {
 	constexpr auto deref(auto & ptr_like) {
