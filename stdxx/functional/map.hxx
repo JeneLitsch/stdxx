@@ -2,11 +2,12 @@
 #include <vector>
 
 namespace stx::fx {
-	template<typename T, typename ... Args>
-	constexpr auto map(auto && f, const std::vector<T> & vec, Args && ... args) {
+	template<typename Container, typename ... Args>
+	constexpr auto map(auto && f, const Container & container, Args && ... args) {
+		using T = typename Container::value_type;
 		using R = decltype(f(std::declval<T>(), (std::declval<Args>())...));
 		std::vector<R> results;
-		for(const auto & elem : vec) results.push_back(f(elem, args...));
+		for(const auto & elem : container) results.push_back(f(elem, args...));
 		return results;
 	}
 
