@@ -31,6 +31,15 @@ namespace stx {
 			return *this->ptr;
 		}
 
+		friend auto operator<=>(const reference & l, const reference & r) {
+			return std::compare_three_way{}(l.ptr, r.ptr);
+		}
+
+
+		friend auto operator==(const reference & l, const reference & r) {
+			return (l <=> r) == 0;
+		}
+
 	private:
 		T * ptr;
 	};
