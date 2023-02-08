@@ -1,6 +1,5 @@
 #pragma once
 #include "stdxx/args/option.hxx"
-#include "stdxx/args/read_from_stream.hxx"
 #include <optional>
 	
 namespace stx {
@@ -22,16 +21,12 @@ namespace stx {
 		basic_option_value & operator=(const basic_option_value &) = default; 
 		basic_option_value & operator=(basic_option_value &&) = default; 
 		
-		virtual bool parse(const std::string_view & name, std::istream & in) override {			
+		virtual bool parse(const std::string_view & name, args::iterator & it) override {			
 			if(!this->matches(name)) return false;
 			T v;
-			internal::read_from_stream(v, in);
+			std::istringstream iss{(it++).str()};
+			iss >> v;
 			this->opt_v = v;
-
-			if(!in) throw std::runtime_error {
-				"Invalid option value"
-			};
-
 			return true;
 		}
 

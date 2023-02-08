@@ -23,7 +23,7 @@ namespace stx {
 		option_flag & operator=(const option_flag &) = default; 
 		option_flag & operator=(option_flag &&) = default; 
 
-		virtual bool parse(const std::string_view & name, std::istream &) override {
+		virtual bool parse(const std::string_view & name, stx::args::iterator &) override {
 			bool b = this->matches(name);
 			this->set = this->set || this->matches(name);
 			return b;

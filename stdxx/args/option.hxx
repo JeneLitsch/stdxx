@@ -45,7 +45,7 @@ namespace stx {
 			return this->descr;
 		}
 
-		virtual bool parse(const std::string_view & name, std::istream & in) = 0;
+		virtual bool parse(const std::string_view & name, args::iterator & it) = 0;
 		virtual void mandatory() const = 0;
 
 		const std::string & get_main_name() const {

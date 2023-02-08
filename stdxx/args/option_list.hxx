@@ -1,6 +1,5 @@
 #pragma once
 #include "stdxx/args/option.hxx"
-#include "stdxx/args/read_from_stream.hxx"
 
 namespace stx {
 	template<typename T>
@@ -23,17 +22,15 @@ namespace stx {
 		basic_option_list & operator=(const basic_option_list &) = default; 
 		basic_option_list & operator=(basic_option_list &&) = default; 
 		
-		virtual bool parse(const std::string_view & name, std::istream & in) override {
+		virtual bool parse(const std::string_view & name, args::iterator & it) override {
 			if(!this->matches(name)) return false;
-			int c = (in >> std::ws).peek();
+			if(!it) return false;
+			std::istringstream iss {(it++).str()};
 			this->opt_v = std::vector<T>{};
-			while (c != '-' && c != EOF) {
-				opt_v->push_back({});
-				internal::read_from_stream(opt_v->back(), in);
-				if(!in) throw std::runtime_error {
-					"Invalid element in option list " + this->get_main_name()
-				};
-				c = (in >> std::ws).peek();
+			while (!iss.eof()) {
+				T t;
+				iss >> t;
+				opt_v->push_back(t);
 			}
 			return true;
 		}
