@@ -10,10 +10,10 @@ namespace stx {
 		std::optional<std::string_view> tag;
 	};
 
-	constexpr auto FATAL   = log_level { "[Fatal] " };
-	constexpr auto ERROR   = log_level { "[Error] " };
-	constexpr auto WARNING = log_level { "[Warning] " };
-	constexpr auto INFO    = log_level { "[Info] " };
+	constexpr auto FATAL   = log_level { "Fatal" };
+	constexpr auto ERROR   = log_level { "Error" };
+	constexpr auto WARNING = log_level { "Warning" };
+	constexpr auto INFO    = log_level { "Info" };
 	constexpr auto WRITE   = log_level {};
 	
 	inline class logger {
@@ -23,7 +23,7 @@ namespace stx {
 			line(auto & outs, const Type & type, unsigned indent) : outs(outs) { 
 				ss << std::string(indent, '\t');
 				if(type.tag) {
-					ss << *type.tag << " ";
+					ss << "[" << *type.tag << "] ";
 				}
 			}
 			line(const line &) = delete;
