@@ -33,11 +33,18 @@ stx::observable implements basic mechanics to make a object observable.
 
 <br>
 
-### void add_observer(std::function&lt;void(const Args &...)&gt; observer)
+### stx::referece<observer> add_observer(observer observer)
 
 Adds callback as observer.
 
 <br>
+
+### void remove_observer(stx::referece<observer> observer)
+
+Removes observer if already registered. Does nothing if the matching observer is not present.
+
+<br>
+
 
 ### void notify(const Args & ... data)
 
