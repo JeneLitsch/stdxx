@@ -19,6 +19,12 @@ namespace stx {
 
 		constexpr optref(T & t)
 		: t{&t} {}
+
+
+
+		template<typename U>
+		constexpr optref(U & u)
+		: t{&u} {}
 		
 		
 		
