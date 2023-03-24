@@ -45,9 +45,10 @@ namespace stx::json {
 
 		inline void print_indent(
 			std::ostream & out,
-			int identation,
+			int indentation,
 			const style & style) {
-			out << (style.use_indent ? std::string(identation, '\t') : "");
+			auto indent_depth = static_cast<std::size_t>(std::max(indentation, 0));
+			out << (style.use_indent ? std::string(indent_depth, '\t') : "");
 		}
 
 
@@ -55,8 +56,8 @@ namespace stx::json {
 		inline void print(
 			std::ostream & out,
 			std::monostate,
-			int indentation,
-			const style & style) {
+			[[maybe_unused]] int indentation,
+			[[maybe_unused]] const style & style) {
 			out << "null";
 		}
 
@@ -65,8 +66,8 @@ namespace stx::json {
 		inline void print(
 			std::ostream & out,
 			double value,
-			int indentation,
-			const style & style) {
+			[[maybe_unused]] int indentation,
+			[[maybe_unused]] const style & style) {
 			out << std::setprecision(10) << value;
 		}
 
@@ -75,8 +76,8 @@ namespace stx::json {
 		inline void print(
 			std::ostream & out,
 			bool value,
-			int indentation,
-			const style & style) {
+			[[maybe_unused]] int indentation,
+			[[maybe_unused]] const style & style) {
 			out << std::boolalpha << value;
 		}
 
@@ -85,8 +86,8 @@ namespace stx::json {
 		inline void print(
 			std::ostream & out,
 			const std::string & value,
-			int indentation,
-			const style & style) {
+			[[maybe_unused]] int indentation,
+			[[maybe_unused]] const style & style) {
 			out << escaped(value);
 		}
 
