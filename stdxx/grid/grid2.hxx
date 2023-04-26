@@ -26,34 +26,34 @@ namespace stx {
 		}
 		
 
-		const auto & operator()(std::size_t x, std::size_t y) const {
+		decltype(auto) operator()(std::size_t x, std::size_t y) const {
 			guard_range(x,y);
 			return this->data[y * this->sizeXY.x + x];
 		}
 
 
-		auto & operator()(std::size_t x, std::size_t y) {
+		decltype(auto) operator()(std::size_t x, std::size_t y) {
 			guard_range(x,y);
 			return this->data[y * this->sizeXY.x + x];
 		}
 		
 
-		const auto & operator[](const stx::position2ul & pos) const {
+		decltype(auto) operator[](const stx::position2ul & pos) const {
 			return (*this)(pos.x, pos.y);
 		}
 
 
-		auto & operator[](const stx::position2ul & pos) {
+		decltype(auto) operator[](const stx::position2ul & pos) {
 			return (*this)(pos.x, pos.y);
 		}
 
 
-		const auto & operator[](const stx::vector_2 auto & pos) const {
+		decltype(auto) operator[](const stx::vector_2 auto & pos) const {
 			return (*this)(pos.x, pos.y);
 		}
 
 
-		auto & operator[](const stx::vector_2 auto & pos) {
+		decltype(auto) operator[](const stx::vector_2 auto & pos) {
 			return (*this)(pos.x, pos.y);
 		}
 

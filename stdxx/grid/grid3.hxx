@@ -27,7 +27,7 @@ namespace stx {
 		}
 		
 
-		const auto & operator()(std::size_t x, std::size_t y, std::size_t z) const {
+		decltype(auto) operator()(std::size_t x, std::size_t y, std::size_t z) const {
 			guard_range(x,y,z);
 			return this->data[
 				z * this->sizeXYZ.x * this->sizeXYZ.y +
@@ -36,7 +36,7 @@ namespace stx {
 		}
 
 
-		auto & operator()(std::size_t x, std::size_t y, std::size_t z) {
+		decltype(auto) operator()(std::size_t x, std::size_t y, std::size_t z) {
 			guard_range(x,y,z);
 			return this->data[
 				z * this->sizeXYZ.x * this->sizeXYZ.y +
@@ -45,22 +45,22 @@ namespace stx {
 		}
 		
 
-		const auto & operator[](const stx::position3ul & pos) const {
+		decltype(auto) operator[](const stx::position3ul & pos) const {
 			return (*this)(pos.x, pos.y, pos.z);
 		}
 
 
-		auto & operator[](const stx::position3ul & pos) {
+		decltype(auto) operator[](const stx::position3ul & pos) {
 			return (*this)(pos.x, pos.y, pos.z);
 		}
 
 
-		const auto & operator[](const stx::vector_3 auto & pos) const {
+		decltype(auto) operator[](const stx::vector_3 auto & pos) const {
 			return (*this)(pos.x, pos.y, pos.z);
 		}
 
 
-		auto & operator[](const stx::vector_3 auto & pos) {
+		decltype(auto) operator[](const stx::vector_3 auto & pos) {
 			return (*this)(pos.x, pos.y, pos.z);
 		}
 
