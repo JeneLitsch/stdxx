@@ -79,6 +79,13 @@ namespace stx {
 		}
 
 
+
+		constexpr T & value_or(T & alt) const {
+			if(this->t) return *this->t;
+			else return alt;
+		}
+
+
 		
 		inline friend bool operator==(const optref & l, const optref & r) {
 			return l.t == r.t;
