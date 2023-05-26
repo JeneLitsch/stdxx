@@ -31,8 +31,20 @@ template<typename T, std::size_t SIZE>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
 	const std::array<T, SIZE> & arr) {	
-	for(const auto e : arr) {
+	for(const auto & e : arr) {
 		vec.push_back(e);
+	}
+	return vec;
+}
+
+
+
+template<typename T, std::size_t SIZE>
+inline std::vector<T> & operator+=(
+	std::vector<T> & vec,
+	std::array<T, SIZE> && arr) {	
+	for(auto & e : arr) {
+		vec.push_back(std::move(e));
 	}
 	return vec;
 }
@@ -43,7 +55,7 @@ template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
 	const std::vector<T> & arr) {	
-	for(const auto e : arr) {
+	for(const auto & e : arr) {
 		vec.push_back(e);
 	}
 	return vec;
@@ -54,8 +66,20 @@ inline std::vector<T> & operator+=(
 template<typename T>
 inline std::vector<T> & operator+=(
 	std::vector<T> & vec,
+	std::vector<T> && arr) {	
+	for(auto & e : arr) {
+		vec.push_back(std::move(e));
+	}
+	return vec;
+}
+
+
+
+template<typename T>
+inline std::vector<T> & operator+=(
+	std::vector<T> & vec,
 	const std::span<const T> & arr) {	
-	for(const auto e : arr) {
+	for(const auto & e : arr) {
 		vec.push_back(e);
 	}
 	return vec;
