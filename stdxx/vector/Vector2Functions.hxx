@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.hxx"
 #include <cmath>
+#include <concepts>
 
 namespace stx {
 
@@ -16,6 +17,13 @@ namespace stx {
 	constexpr Arithmetic hypot(
 		const vector2<Arithmetic, FlavorL> & vector) {
 		return std::sqrt(vector.x * vector.x + vector.y * vector.y);
+	}
+
+
+	template<std::floating_point Arithmetic, class FlavorL>
+	constexpr vector2<Arithmetic, FlavorL> normalized(
+		const vector2<Arithmetic, FlavorL> & vector) {
+		return vector / stx::hypot(vector);
 	}
 
 
