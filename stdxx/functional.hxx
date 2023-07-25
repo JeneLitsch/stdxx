@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include "functional/fx_ptr.hxx"
+#include "functional/cast.hxx"
 #include "functional/map.hxx"
 #include "functional/paired.hxx"
 #include "functional/no_op.hxx"
