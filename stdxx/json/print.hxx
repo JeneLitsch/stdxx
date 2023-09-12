@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iomanip>
 #include "../io/escaped.hxx"
+#include <array>
 
 namespace stx::json {
 	struct style {

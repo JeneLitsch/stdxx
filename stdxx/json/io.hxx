@@ -9,7 +9,8 @@ namespace stx::json {
 	node from_file(auto path) {
 		if(!std::filesystem::exists(path)) {
 			throw std::runtime_error{
-				"No such file exists: " + std::string(path)};
+				"No such file exists: " + std::string(path.string())
+			};
 		}
 		node n;
 		std::ifstream{path} >> n;

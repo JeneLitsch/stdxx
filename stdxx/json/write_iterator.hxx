@@ -1,6 +1,7 @@
 #pragma once
 #include "node.hxx"
 #include "error.hxx"
+#include <optional>
 
 namespace stx::json {
 	inline const struct null_t {} null;
