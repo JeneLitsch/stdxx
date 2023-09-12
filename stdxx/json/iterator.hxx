@@ -153,6 +153,10 @@ namespace stx::json {
 		}
 
 
+		const node & get_node() const {
+			return *n;
+		} 
+
 	private:
 		const node * n;
 	};
