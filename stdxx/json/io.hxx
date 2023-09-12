@@ -1,3 +1,5 @@
+#pragma once
+#include <stdexcept>
 #include <filesystem>
 #include <fstream>
 #include "node.hxx"
