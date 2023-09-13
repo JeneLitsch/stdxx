@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include "node.hxx"
 #include "error.hxx"
 #include "../optional.hxx"
