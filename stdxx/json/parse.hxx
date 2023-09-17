@@ -206,7 +206,7 @@ namespace stx::json {
 
 	inline std::istream & operator>>(std::istream & in, node & node) {
 		node = impl::parse(in);
-		if(in.get() != EOF) {
+		if((in >> std::ws).get() != EOF) {
 			throw syntax_error{"Expected EOF"};
 		}
 		return in;
