@@ -119,6 +119,13 @@ Creates a new vector from the x and y of any vector-like type.
 
 - constexpr
 
+### vector2 from(const std::tuple&lt;X,Y&gt; & tup)
+
+Creates a new vector from a two element tuple.
+The first element becomes the x-value and the second the y-value. 
+
+- constexpr
+
 <br>
 
 ### vectro2 from_angle(const radians_t angle)

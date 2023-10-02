@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <array>
 #include <iostream>
+#include <tuple>
 #include <functional>
 #include "VectorFlavor.hxx"
 #include "../concepts.hxx"
@@ -46,6 +47,12 @@ namespace stx {
 			return vectorN(
 				static_cast<Arithmetic>(vec.x),
 				static_cast<Arithmetic>(vec.y));
+		}
+
+		template<typename X, typename Y>
+		static constexpr vectorN from(const std::tuple<X, Y> & tup) {
+			auto [x, y] = tup;
+			return vectorN{x, y};
 		}
 
 		static constexpr vectorN from_angle(const radians_t<Arithmetic> angle) {
