@@ -2,6 +2,8 @@
 #include <array>
 #include <vector>
 #include <span>
+#include <cstdint>
+#include <algorithm>
 
 template<typename T, std::size_t SIZE_L, std::size_t SIZE_R>
 constexpr inline std::array<T, SIZE_L + SIZE_R> operator+(
