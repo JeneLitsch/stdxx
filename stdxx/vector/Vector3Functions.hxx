@@ -53,5 +53,19 @@ namespace stx {
 			std::ceil(vector.z)
 		);
 	} 
+
+	
+	template<class Arithmetic, class FlavorL>
+	constexpr Arithmetic hypot(
+		const vector3<Arithmetic, FlavorL> & vector) {
+		return std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+	}
+
+
+	template<std::floating_point Arithmetic, class FlavorL>
+	constexpr vector3<Arithmetic, FlavorL> normalized(
+		const vector3<Arithmetic, FlavorL> & vector) {
+		return vector / stx::hypot(vector);
+	}
 }
 
