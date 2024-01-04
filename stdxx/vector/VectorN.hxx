@@ -285,7 +285,6 @@ namespace stx {
 
 
 
-
 	template<typename T, std::size_t N, typename Flavor>
 	std::ostream & operator<<(std::ostream & out, const vectorN<T, N, Flavor> & vec) {
 		out << "(";
@@ -294,6 +293,17 @@ namespace stx {
 			out << vec[i];
 		}
 		out << ")";
+		return out;
+	}
+
+
+
+	template<std::size_t N_OUT, typename T, std::size_t N_IN, typename Flavor>
+	constexpr vectorN<T, N_OUT, Flavor> dim_cast(vectorN<T, N_IN, Flavor> in) {
+		vectorN<T, N_OUT, Flavor> out;
+		for(std::size_t i = 0; i < std::min(N_IN, N_OUT); ++i) {
+			out[i] = in[i];
+		}
 		return out;
 	}
 }

@@ -1,12 +1,13 @@
 #pragma once
+#include "matrix.hxx"
 #include "matrix3.hxx"
 namespace stx {
-	template<typename T>
-	std::ostream & operator<<(std::ostream & out, const matrix3<T> & m) {
+	template<typename T, std::size_t N>
+	std::ostream & operator<<(std::ostream & out, const matrixNxN<T, N> & m) {
 		out << "[";
-		for(std::size_t y = 0; y < 3; y++) {
+		for(std::size_t y = 0; y < N; y++) {
 			out << (y ? "|" : "");
-			for(std::size_t x = 0; x < 3; x++) {
+			for(std::size_t x = 0; x < N; x++) {
 				out << (x ? "," : "") << m(x,y);
 			}
 		}
@@ -14,35 +15,35 @@ namespace stx {
 		return out;
 	}
 
-	template<typename T>
-	constexpr matrix3<T> operator+(const matrix3<T> & l, const matrix3<T> & r) {
-		matrix3<T> m;
-		for(std::size_t x = 0; x < 3; x++) {
-			for(std::size_t y = 0; y < 3; y++) {
+	template<typename T, std::size_t N>
+	constexpr matrixNxN<T, N> operator+(const matrixNxN<T, N> & l, const matrixNxN<T, N> & r) {
+		matrixNxN<T, N> m;
+		for(std::size_t x = 0; x < N; x++) {
+			for(std::size_t y = 0; y < N; y++) {
 				m(x,y) = l(x,y) + r(x,y);
 			}
 		}
 		return m;
 	}
 
-	template<typename T>
-	constexpr matrix3<T> operator-(const matrix3<T> & l, const matrix3<T> & r) {
-		matrix3<T> m;
-		for(std::size_t x = 0; x < 3; x++) {
-			for(std::size_t y = 0; y < 3; y++) {
+	template<typename T, std::size_t N>
+	constexpr matrixNxN<T, N> operator-(const matrixNxN<T, N> & l, const matrixNxN<T, N> & r) {
+		matrixNxN<T, N> m;
+		for(std::size_t x = 0; x < N; x++) {
+			for(std::size_t y = 0; y < N; y++) {
 				m(x,y) = l(x,y) - r(x,y);
 			}
 		}
 		return m;
 	}
 
-	template<typename T>
-	constexpr matrix3<T> operator*(const matrix3<T> & l, const matrix3<T> & r) {
-		matrix3<T> m;
-		for(std::size_t x = 0; x < 3; x++) {
-			for(std::size_t y = 0; y < 3; y++) {
+	template<typename T, std::size_t N>
+	constexpr matrixNxN<T, N> operator*(const matrixNxN<T, N> & l, const matrixNxN<T, N> & r) {
+		matrixNxN<T, N> m;
+		for(std::size_t x = 0; x < N; x++) {
+			for(std::size_t y = 0; y < N; y++) {
 				T value = 0;
-				for(std::size_t i = 0; i < 3; i++) {
+				for(std::size_t i = 0; i < N; i++) {
 					value += l(i,y) * r(x,i);
 				}
 				m(x,y) = value;
@@ -68,6 +69,21 @@ namespace stx {
 		v.z += r.x * l(0, 2);
 		v.z += r.y * l(1, 2);
 		v.z += r.z * l(2, 2);
+
+		return v;
+	}
+
+	template<typename T, std::size_t N, class Flavor>
+	constexpr vectorN<T, N, Flavor> operator*(
+		const matrix<T, N, N> & l,
+		const vectorN<T, N, Flavor> & r) {
+		vectorN<T, N, Flavor> v;
+
+		for(std::size_t i = 0; i < N; i++) {
+			for(std::size_t ii = 0; ii < N; ii++) {
+				v[i] += r[ii] * l(ii, i);
+			}
+		}
 
 		return v;
 	}
