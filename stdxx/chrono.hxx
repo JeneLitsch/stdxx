@@ -13,4 +13,6 @@ namespace stx::chrono {
 			std::chrono::duration_cast<std::chrono::seconds>(t) % 60,
 		};
 	}
+
+	using seconds_d = std::chrono::duration<double>;
 }
