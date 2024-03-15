@@ -88,11 +88,12 @@ namespace stx::json {
 
 
 
-		void push_back(auto x) {
+		auto push_back(auto x) {
 			auto & arr = this->get_array();
 			arr.push_back(nullptr);
 			auto it = write_iterator{arr.back()};
 			it = x;
+			return it;
 		}
 		
 	private:
