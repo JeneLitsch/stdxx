@@ -76,7 +76,9 @@ namespace stx {
 
 	template<typename T>
 	wrapped<T> wrapped_index (const sized_container auto & container) {
-		return wrapped<T>{0, 0, static_cast<T>(container.size()) - 1};
+		return std::empty(container) 
+			? wrapped<T>{0, 0, 0}
+			: wrapped<T>{0, 0, static_cast<T>(container.size()) - 1};
 	}
 
 
