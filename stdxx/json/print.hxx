@@ -162,16 +162,16 @@ namespace stx::json {
 
 
 	struct format_t {
-		const node * node;
-		style style;
+		const node * node_ptr;
+		style selected_style;
 	};
 
 
 
 	inline format_t format(const node & node, const style & style) {
 		return format_t {
-			.node = &node,
-			.style = style
+			.node_ptr = &node,
+			.selected_style = style
 		};
 	}
 
@@ -182,7 +182,7 @@ namespace stx::json {
 
 
 	inline std::ostream & operator<<(std::ostream & out, format_t format) {
-		do_not_touch::print_node(out, *format.node, 0, format.style);
+		do_not_touch::print_node(out, *format.node_ptr, 0, format.selected_style);
 		return out;
 	}
 
